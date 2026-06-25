@@ -51,15 +51,23 @@ class ScheduleParser(HTMLParser):
             self._in_tbody = True
             self._in_thead = False
         if tag == "td" and self._in_thead:
-            # Look for store name in thead
             pass
         if tag == "tr" and self._in_tbody:
             self._in_tr = True
             self._td_idx = 0
             self._cell_texts = []
+            self._cell_dests = []
         if tag == "td" and self._in_tr:
             self._in_td = True
             self._current_cell = []
+            self._current_dest = ''
+        # 支援目的地：<a class="tooltip" id="門市名稱">
+        if tag == "a" and self._in_td:
+            cls = attrs.get('class', '')
+            if 'tooltip' in cls:
+                dest = attrs.get('id', '').strip()
+                if dest:
+                    self._current_dest = dest
 
     def handle_endtag(self, tag):
         if tag == "thead":
@@ -69,6 +77,9 @@ class ScheduleParser(HTMLParser):
         if tag == "td" and self._in_td:
             self._in_td = False
             text = " ".join(self._current_cell).strip()
+            # 若有目的地，格式存為 "支援|門市名"
+            if self._current_dest and '支' in text:
+                text = f"支援|{self._current_dest}"
             self._cell_texts.append(text)
             self._td_idx += 1
         if tag == "tr" and self._in_tr:
@@ -94,17 +105,26 @@ class ScheduleParser(HTMLParser):
             is_manager = ("副理" in emp_title or "主任" in emp_title or "店長" in emp_title)
             # days: cells[1:] — up to 30 days
             days = []
+            dests = []
             for c in cells[1:31]:
-                days.append(c.strip() if c.strip() else "")
+                t = c.strip()
+                days.append(t if t else "")
+                # 目的地門市：格式為 "支援|03132 竹北大遠百門市" 或單純 "支援"
+                if '|' in t and t.startswith('支援'):
+                    dests.append(t.split('|', 1)[1].strip())
+                else:
+                    dests.append('')
             # Pad to 30
             while len(days) < 30:
                 days.append("")
+                dests.append("")
             self.stores.setdefault(self._current_store, []).append({
                 "id": emp_id,
                 "name": emp_name,
                 "title": emp_title,
                 "isManager": is_manager,
-                "days": days[:30]
+                "days": days[:30],
+                "dests": dests[:30]
             })
 
     def set_store(self, name):

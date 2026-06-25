@@ -7,183 +7,143 @@
 <style>
   :root {
     --bg: #f5f4f1;
-    --surface: #ffffff;
+    --surface: #fff;
     --border: #e0ddd8;
     --border-dark: #c8c5be;
     --text: #1a1917;
-    --text-muted: #6b6963;
-    --text-hint: #9c9990;
+    --muted: #6b6963;
+    --hint: #9c9990;
     --accent: #1a5fb4;
     --accent-bg: #e8f0fb;
-    --success: #2a7d4f;
-    --success-bg: #e8f5ee;
-    --warn: #8a5c00;
-    --warn-bg: #fef6e4;
-    --info: #1a5fb4;
-    --info-bg: #e8f0fb;
-    --off-text: #5a5750;
-    --off-bg: #f0ede8;
-    --radius: 8px;
-    --radius-lg: 12px;
+    --green: #2a7d4f;
+    --green-bg: #e8f5ee;
+    --blue: #1a5fb4;
+    --blue-bg: #e8f0fb;
+    --purple: #6d28d9;
+    --purple-light: #7c3aed;
+    --purple-bg: #f5f0ff;
+    --purple-border: #c4b5fd;
+    --purple-pill: #ede9fe;
+    --red: #b91c1c;
+    --red-bg: #fef2f2;
+    --r: 8px;
+    --rl: 12px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--bg); color: var(--text); font-family: -apple-system, "Noto Sans TC", sans-serif; font-size: 15px; line-height: 1.5; min-height: 100vh; }
 
-  header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 1.5rem; display: flex; align-items: center; gap: 1rem; height: 56px; position: sticky; top: 0; z-index: 10; }
-  header h1 { font-size: 15px; font-weight: 600; color: var(--text); }
-  header .dept { font-size: 13px; color: var(--text-muted); margin-left: 4px; }
-  .updated-badge { margin-left: auto; font-size: 12px; color: var(--text-hint); }
+  header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 1.5rem; display: flex; align-items: center; height: 56px; position: sticky; top: 0; z-index: 10; gap: 1rem; }
+  header h1 { font-size: 15px; font-weight: 600; }
+  header .dept { font-size: 13px; color: var(--muted); margin-left: 4px; }
+  .badge-updated { margin-left: auto; font-size: 12px; color: var(--hint); }
 
-  .layout { display: grid; grid-template-columns: 280px 1fr; min-height: calc(100vh - 56px); }
+  .layout { display: grid; grid-template-columns: 260px 1fr; min-height: calc(100vh - 56px); }
 
-  aside { background: var(--surface); border-right: 1px solid var(--border); padding: 1.25rem; position: sticky; top: 56px; height: calc(100vh - 56px); overflow-y: auto; }
-  aside h2 { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--text-hint); margin-bottom: 1rem; }
+  aside { background: var(--surface); border-right: 1px solid var(--border); padding: 1.25rem; position: sticky; top: 56px; height: calc(100vh - 56px); overflow-y: auto; display: flex; flex-direction: column; gap: 1rem; }
+  .section-label { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--hint); margin-bottom: .25rem; }
 
-  .field { margin-bottom: 1rem; }
-  .field label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 5px; font-weight: 500; }
-  select, input[type=date] { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); color: var(--text); font-size: 14px; appearance: none; -webkit-appearance: none; cursor: pointer; }
+  select, input[type=date] { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--r); background: var(--bg); color: var(--text); font-size: 14px; appearance: none; -webkit-appearance: none; cursor: pointer; }
   select:focus, input[type=date]:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
 
-  .filter-group { display: flex; flex-direction: column; gap: 6px; }
-  .filter-btn { padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); color: var(--text-muted); font-size: 13px; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 8px; transition: all .15s; }
-  .filter-btn:hover { border-color: var(--border-dark); color: var(--text); background: var(--surface); }
-  .filter-btn.active { border-color: var(--accent); background: var(--accent-bg); color: var(--accent); font-weight: 500; }
-  .filter-btn .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .dot-ok { background: var(--success); }
-  .dot-off { background: var(--off-text); }
-  .dot-leave { background: var(--warn); }
-  .dot-support { background: var(--info); }
-  .dot-all { background: var(--border-dark); }
-  .dot-surplus { background: #7c3aed; }
+  .mode-group { display: flex; flex-direction: column; gap: 6px; }
+  .mode-btn { padding: 9px 12px; border: 1px solid var(--border); border-radius: var(--r); background: var(--bg); color: var(--muted); font-size: 13px; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 9px; transition: all .12s; line-height: 1.3; }
+  .mode-btn:hover { border-color: var(--border-dark); color: var(--text); background: var(--surface); }
+  .mode-btn.active-surplus { border-color: var(--purple-light); background: var(--purple-bg); color: var(--purple); font-weight: 500; }
+  .mode-btn.active-going { border-color: var(--blue); background: var(--blue-bg); color: var(--blue); font-weight: 500; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .d-purple { background: var(--purple-light); }
+  .d-blue { background: var(--blue); }
 
-  .surplus-banner { background: #f5f0ff; border: 1px solid #c4b5fd; border-radius: var(--radius-lg); padding: 10px 14px; margin-bottom: 1rem; display: flex; align-items: center; justify-content: space-between; }
-  .surplus-banner-title { font-size: 13px; font-weight: 600; color: #5b21b6; }
-  .surplus-banner-sub { font-size: 12px; color: #7c3aed; margin-top: 2px; }
-  .surplus-count { font-size: 22px; font-weight: 700; color: #7c3aed; }
+  .divider { border: none; border-top: 1px solid var(--border); }
 
-  .store-label-surplus { font-size: 12px; font-weight: 600; color: #5b21b6; padding: 6px 10px; background: #f5f0ff; border: 1px solid #c4b5fd; border-radius: var(--radius); margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; }
-  .store-label-surplus .on-count { font-size: 12px; font-weight: 700; color: #7c3aed; background: #ede9fe; padding: 1px 8px; border-radius: 12px; }
+  .btn-query { width: 100%; padding: 10px; background: var(--accent); color: #fff; border: none; border-radius: var(--r); font-size: 14px; font-weight: 600; cursor: pointer; transition: opacity .12s; margin-top: auto; }
+  .btn-query:hover { opacity: .87; }
 
-  .min-count-row { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
-  .min-count-row label { font-size: 12px; color: var(--text-muted); font-weight: 500; white-space: nowrap; }
-  .min-count-row input[type=number] { width: 64px; padding: 6px 8px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); color: var(--text); font-size: 14px; text-align: center; }
-  .min-count-row input[type=number]:focus { outline: 2px solid var(--accent); border-color: var(--accent); }
+  main { padding: 1.5rem; }
 
-  .divider { border: none; border-top: 1px solid var(--border); margin: 1.25rem 0; }
-
-  .btn-query { width: 100%; padding: 10px; background: var(--accent); color: #fff; border: none; border-radius: var(--radius); font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 4px; transition: opacity .15s; }
-  .btn-query:hover { opacity: .88; }
-
-  main { padding: 1.5rem; overflow-y: auto; }
-
-  .summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 1.5rem; }
-  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 12px 14px; }
-  .stat-num { font-size: 26px; font-weight: 700; line-height: 1; }
-  .stat-lbl { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
-  .stat-ok .stat-num { color: var(--success); }
-  .stat-off .stat-num { color: var(--off-text); }
-  .stat-leave .stat-num { color: var(--warn); }
-  .stat-support .stat-num { color: var(--info); }
-
-  .result-header { display: flex; align-items: baseline; gap: 10px; margin-bottom: 1rem; }
+  /* 結果 header */
+  .result-bar { display: flex; align-items: baseline; gap: 10px; margin-bottom: 1.25rem; }
   .result-title { font-size: 16px; font-weight: 600; }
-  .result-count { font-size: 13px; color: var(--text-muted); }
+  .result-sub { font-size: 13px; color: var(--muted); }
 
-  .store-section { margin-bottom: 1.25rem; }
-  .store-label { font-size: 12px; font-weight: 600; color: var(--text-muted); padding: 6px 0; border-bottom: 1px solid var(--border); margin-bottom: 8px; letter-spacing: .03em; }
+  /* 可支援門市 banner */
+  .surplus-banner { background: var(--purple-bg); border: 1px solid var(--purple-border); border-radius: var(--rl); padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
+  .surplus-banner-lbl { font-size: 12px; color: var(--purple-light); font-weight: 500; margin-bottom: 2px; }
+  .surplus-banner-date { font-size: 13px; color: var(--purple); font-weight: 600; }
+  .surplus-banner-num { font-size: 28px; font-weight: 700; color: var(--purple-light); line-height: 1; }
+  .surplus-banner-num span { font-size: 13px; font-weight: 500; color: var(--purple-light); margin-left: 2px; }
 
-  .emp-list { display: flex; flex-direction: column; gap: 5px; }
-  .emp-card { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
+  /* 門市區塊 */
+  .store-block { margin-bottom: 1.25rem; }
+  .store-head { display: flex; align-items: center; justify-content: space-between; padding: 6px 10px; border-radius: var(--r); margin-bottom: 6px; }
+  .store-head-surplus { background: var(--purple-bg); border: 1px solid var(--purple-border); }
+  .store-head-going { background: var(--blue-bg); border: 1px solid #b5d4f4; }
+  .store-head-name { font-size: 12px; font-weight: 600; }
+  .store-head-surplus .store-head-name { color: var(--purple); }
+  .store-head-going .store-head-name { color: var(--blue); }
+  .count-pill { font-size: 11px; font-weight: 700; padding: 1px 9px; border-radius: 12px; }
+  .pill-purple { background: var(--purple-pill); color: var(--purple-light); }
+  .pill-blue { background: var(--blue-bg); color: var(--blue); border: 1px solid #b5d4f4; }
+
+  .emp-list { display: flex; flex-direction: column; gap: 4px; }
+  .emp-card { display: flex; align-items: center; justify-content: space-between; padding: 9px 13px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); }
   .emp-card:hover { border-color: var(--border-dark); }
   .emp-name { font-size: 14px; font-weight: 500; }
-  .emp-name .star { color: #c88000; font-size: 12px; margin-left: 4px; }
-  .emp-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .star { color: #c88000; font-size: 11px; margin-left: 3px; }
+  .emp-sub { font-size: 12px; color: var(--muted); margin-top: 1px; }
   .tag { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
-  .tag-ok { background: var(--success-bg); color: var(--success); }
-  .tag-off { background: var(--off-bg); color: var(--off-text); }
-  .tag-leave { background: var(--warn-bg); color: var(--warn); }
-  .tag-support { background: var(--info-bg); color: var(--info); }
-  .tag-other { background: var(--off-bg); color: var(--text-muted); }
+  .tag-ok { background: var(--green-bg); color: var(--green); }
+  .tag-going { background: var(--blue-bg); color: var(--blue); }
+  .tag-no { background: #f3f4f6; color: #6b7280; }
 
-  .empty-state { text-align: center; padding: 4rem 2rem; color: var(--text-muted); }
-  .empty-icon { font-size: 40px; margin-bottom: 1rem; opacity: .4; }
+  .empty-state { text-align: center; padding: 4rem 2rem; color: var(--muted); }
+  .empty-icon { font-size: 36px; margin-bottom: 1rem; opacity: .35; }
   .empty-title { font-size: 15px; font-weight: 500; margin-bottom: 6px; }
   .empty-sub { font-size: 13px; }
 
-  @media (max-width: 680px) {
+  @media (max-width: 640px) {
     .layout { grid-template-columns: 1fr; }
     aside { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
-    .summary-grid { grid-template-columns: repeat(2, 1fr); }
   }
 </style>
 </head>
 <body>
 
 <header>
-  <div>
-    <h1>班表查詢 <span class="dept">桃區營業二部</span></h1>
-  </div>
-  <div class="updated-badge" id="updatedBadge">載入中...</div>
+  <h1>班表查詢 <span class="dept">桃區營業二部</span></h1>
+  <div class="badge-updated" id="updatedBadge">載入中...</div>
 </header>
 
 <div class="layout">
   <aside>
-    <h2>查詢條件</h2>
-
-    <div class="field">
-      <label>日期</label>
+    <div>
+      <div class="section-label">日期</div>
       <input type="date" id="qdate">
     </div>
 
-    <div class="field">
-      <label>門市</label>
+    <div>
+      <div class="section-label">門市</div>
       <select id="storeFilter">
         <option value="">全部門市</option>
       </select>
     </div>
 
-    <div class="field">
-      <label>職稱</label>
-      <select id="titleFilter">
-        <option value="">全部職稱</option>
-        <option value="主管">主管層（副理以上）</option>
-        <option value="專員">銷售專員</option>
-        <option value="顧問">銷售顧問</option>
-      </select>
-    </div>
+    <div class="divider"></div>
 
-    <hr class="divider">
-
-    <div class="field">
-      <label>顯示狀態</label>
-      <div class="filter-group">
-        <button class="filter-btn active" data-filter="available" onclick="setFilter('available', this)">
-          <span class="dot dot-ok"></span>上班中（可調度）
+    <div>
+      <div class="section-label" style="margin-bottom:.5rem">查詢模式</div>
+      <div class="mode-group">
+        <button class="mode-btn active-surplus" id="btn-surplus" onclick="setMode('surplus')">
+          <span class="dot d-purple"></span>
+          <span>可支援門市<br><span style="font-size:11px;font-weight:400;opacity:.75">上班 3 人以上的門市</span></span>
         </button>
-        <button class="filter-btn" data-filter="off" onclick="setFilter('off', this)">
-          <span class="dot dot-off"></span>休假 / 例假
+        <button class="mode-btn" id="btn-going" onclick="setMode('going')">
+          <span class="dot d-blue"></span>
+          <span>支援他店<br><span style="font-size:11px;font-weight:400;opacity:.75">當天被派去支援的人員</span></span>
         </button>
-        <button class="filter-btn" data-filter="leave" onclick="setFilter('leave', this)">
-          <span class="dot dot-leave"></span>請假中
-        </button>
-        <button class="filter-btn" data-filter="support" onclick="setFilter('support', this)">
-          <span class="dot dot-support"></span>支援他店
-        </button>
-        <button class="filter-btn" data-filter="all" onclick="setFilter('all', this)">
-          <span class="dot dot-all"></span>全部人員
-        </button>
-        <button class="filter-btn" data-filter="surplus" onclick="setFilter('surplus', this)">
-          <span class="dot dot-surplus"></span>可支援的門市
-        </button>
-      </div>
-      <div class="min-count-row" id="minCountRow" style="display:none">
-        <label>上班人數門檻</label>
-        <input type="number" id="minCount" value="3" min="1" max="10">
-        <span style="font-size:12px;color:var(--text-muted)">人以上</span>
       </div>
     </div>
 
-    <hr class="divider">
     <button class="btn-query" onclick="query()">查詢</button>
   </aside>
 
@@ -191,70 +151,58 @@
     <div class="empty-state">
       <div class="empty-icon">📋</div>
       <div class="empty-title">設定條件後點擊查詢</div>
-      <div class="empty-sub">可依門市、職稱、上班狀態篩選</div>
+      <div class="empty-sub">選擇日期與查詢模式</div>
     </div>
   </main>
 </div>
 
 <script>
 let DATA = null;
-let currentFilter = 'available';
+let currentMode = 'surplus';
 
 async function loadData() {
   try {
     const res = await fetch('schedule.json?t=' + Date.now());
     DATA = await res.json();
-    const meta = DATA.meta;
-    document.getElementById('updatedBadge').textContent = `${meta.year}年${meta.month}月班表　更新：${meta.updated.slice(0,10)}`;
-    buildStoreOptions();
-    const today = new Date();
-    const y = today.getFullYear(), m = String(today.getMonth()+1).padStart(2,'0'), d = String(today.getDate()).padStart(2,'0');
-    document.getElementById('qdate').value = `${y}-${m}-${d}`;
+    const { year, month, updated } = DATA.meta;
+    document.getElementById('updatedBadge').textContent = `${year}年${month}月班表　更新：${updated.slice(0,10)}`;
+    Object.keys(DATA.stores).forEach(s => {
+      const o = document.createElement('option');
+      o.value = s; o.textContent = s;
+      document.getElementById('storeFilter').appendChild(o);
+    });
+    const t = new Date();
+    document.getElementById('qdate').value =
+      `${t.getFullYear()}-${String(t.getMonth()+1).padStart(2,'0')}-${String(t.getDate()).padStart(2,'0')}`;
     query();
   } catch(e) {
     document.getElementById('updatedBadge').textContent = '資料載入失敗';
-    document.getElementById('main').innerHTML = `<div class="empty-state"><div class="empty-icon">⚠️</div><div class="empty-title">無法載入班表資料</div><div class="empty-sub">請確認 schedule.json 已放置在同目錄</div></div>`;
+    document.getElementById('main').innerHTML = `<div class="empty-state"><div class="empty-icon">⚠️</div><div class="empty-title">無法載入班表資料</div><div class="empty-sub">請確認 schedule.json 放在同目錄</div></div>`;
   }
 }
 
-function buildStoreOptions() {
-  const sel = document.getElementById('storeFilter');
-  Object.keys(DATA.stores).forEach(s => {
-    const o = document.createElement('option');
-    o.value = s; o.textContent = s;
-    sel.appendChild(o);
-  });
+function setMode(m) {
+  currentMode = m;
+  document.getElementById('btn-surplus').className = 'mode-btn' + (m === 'surplus' ? ' active-surplus' : '');
+  document.getElementById('btn-going').className  = 'mode-btn' + (m === 'going'   ? ' active-going'   : '');
 }
 
-function setFilter(f, el) {
-  currentFilter = f;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('minCountRow').style.display = f === 'surplus' ? 'flex' : 'none';
+// 空白（或全空白字元）= 上班可支援；有任何非空字元 = 無法支援
+function isAvailable(val) {
+  return !val || val.replace(/\s/g, '') === '';
 }
 
-function classify(val) {
-  if (!val) return 'available';
-  if (val.includes('支援')) return 'support';
-  if (val === '休' || val === '例') return 'off';
-  if (/年|國|事|病|喪|生|婚|公/.test(val)) return 'leave';
-  return 'other';
+function isGoingOut(val) {
+  return val && val.replace(/\s/g, '').includes('支援');
 }
 
-function tagInfo(cls, val) {
-  if (cls === 'available') return { label: '上班中', cls: 'tag-ok' };
-  if (cls === 'support') return { label: '支援他店', cls: 'tag-support' };
-  if (cls === 'off') return { label: val || '休假', cls: 'tag-off' };
-  if (cls === 'leave') return { label: val || '請假', cls: 'tag-leave' };
-  return { label: val || '其他', cls: 'tag-other' };
-}
+// 從欄位值取出支援目的地（預留，目前由 emp.dest 欄位提供）
+function goingDest(val) { return ''; }
 
-function matchTitle(title, f) {
-  if (!f) return true;
-  if (f === '主管') return /副理|主任|店長/.test(title);
-  if (f === '專員') return title.includes('專員');
-  if (f === '顧問') return title.includes('顧問');
-  return true;
+function dateLabel(dateVal) {
+  const d = new Date(dateVal);
+  const w = ['日','一','二','三','四','五','六'];
+  return `${d.getMonth()+1}月${d.getDate()}日（週${w[d.getDay()]}）`;
 }
 
 function query() {
@@ -263,131 +211,102 @@ function query() {
   if (!dateVal) return;
   const day = parseInt(dateVal.split('-')[2]) - 1;
   const storeF = document.getElementById('storeFilter').value;
-  const titleF = document.getElementById('titleFilter').value;
   const mainEl = document.getElementById('main');
+  const dLabel = dateLabel(dateVal);
+  const stores = storeF ? [storeF] : Object.keys(DATA.stores);
 
-  const d = new Date(dateVal);
-  const wdays = ['日','一','二','三','四','五','六'];
-  const dateStr = `${d.getMonth()+1}月${d.getDate()}日（週${wdays[d.getDay()]}）`;
-
-  // 可支援門市模式
-  if (currentFilter === 'surplus') {
-    const minCount = parseInt(document.getElementById('minCount').value) || 3;
-    const stores = storeF ? [storeF] : Object.keys(DATA.stores);
-    const surplusStores = [];
-
-    stores.forEach(storeName => {
-      const emps = DATA.stores[storeName] || [];
-      const onShift = emps.filter(emp => classify(emp.days[day] || '') === 'available');
-      if (onShift.length >= minCount) {
-        surplusStores.push({ storeName, emps: onShift });
-      }
+  if (currentMode === 'surplus') {
+    // 每間門市：空白欄位 >= 3 人才列出
+    const result = [];
+    stores.forEach(name => {
+      const emps = DATA.stores[name] || [];
+      const onShift = emps.filter(e => isAvailable(e.days[day] || ''));
+      if (onShift.length >= 3) result.push({ name, onShift, total: emps.length });
     });
 
-    if (!surplusStores.length) {
-      mainEl.innerHTML = `
-        <div class="empty-state">
-          <div class="empty-icon">🔍</div>
-          <div class="empty-title">查無達到 ${minCount} 人上班的門市</div>
-          <div class="empty-sub">${dateStr}　可降低人數門檻再試試</div>
-        </div>`;
+    if (!result.length) {
+      mainEl.innerHTML = `<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-title">今日無門市達到 3 人上班</div><div class="empty-sub">${dLabel}</div></div>`;
       return;
     }
+
+    result.sort((a, b) => b.onShift.length - a.onShift.length);
 
     let html = `
       <div class="surplus-banner">
         <div>
-          <div class="surplus-banner-title">可支援門市</div>
-          <div class="surplus-banner-sub">${dateStr}　上班 ${minCount} 人以上</div>
+          <div class="surplus-banner-lbl">可支援門市</div>
+          <div class="surplus-banner-date">${dLabel}</div>
         </div>
-        <div class="surplus-count">${surplusStores.length} 間</div>
+        <div class="surplus-banner-num">${result.length}<span>間</span></div>
       </div>`;
 
-    surplusStores.sort((a, b) => b.emps.length - a.emps.length);
-    surplusStores.forEach(({ storeName, emps }) => {
-      const filtered = titleF ? emps.filter(e => matchTitle(e.title, titleF)) : emps;
-      html += `<div class="store-section">
-        <div class="store-label-surplus">
-          <span>${storeName}</span>
-          <span class="on-count">上班 ${emps.length} 人</span>
+    result.forEach(({ name, onShift }) => {
+      html += `<div class="store-block">
+        <div class="store-head store-head-surplus">
+          <span class="store-head-name">${name}</span>
+          <span class="count-pill pill-purple">上班 ${onShift.length} 人</span>
         </div>
         <div class="emp-list">`;
-      filtered.forEach(emp => {
+      onShift.forEach(emp => {
         html += `<div class="emp-card">
           <div>
             <div class="emp-name">${emp.name}${emp.isManager ? '<span class="star">★</span>' : ''}</div>
             <div class="emp-sub">${emp.id}　${emp.title}</div>
           </div>
-          <span class="tag tag-ok">上班中</span>
+          <span class="tag tag-ok">可支援</span>
         </div>`;
       });
-      if (!filtered.length) html += `<div style="font-size:13px;color:var(--text-hint);padding:6px 0">（依職稱篩選後無人員）</div>`;
       html += `</div></div>`;
     });
 
     mainEl.innerHTML = html;
-    return;
-  }
 
-  // 一般模式
-  let totals = { available: 0, off: 0, leave: 0, support: 0 };
-  let html = '';
-  let totalShown = 0;
-
-  const stores = storeF ? [storeF] : Object.keys(DATA.stores);
-
-  stores.forEach(storeName => {
-    const emps = DATA.stores[storeName] || [];
-    const matched = [];
-    emps.forEach(emp => {
-      const val = emp.days[day] || '';
-      const cls = classify(val);
-      if (totals[cls] !== undefined) totals[cls]++;
-      const show = currentFilter === 'all' || currentFilter === cls;
-      if (show && matchTitle(emp.title, titleF)) matched.push({ emp, val, cls });
+  } else {
+    // 支援他店模式：欄位包含「支援」字樣的人
+    const result = [];
+    stores.forEach(name => {
+      const emps = DATA.stores[name] || [];
+      const going = emps.filter(e => isGoingOut(e.days[day] || ''));
+      if (going.length) result.push({ name, going });
     });
-    if (!matched.length) return;
-    totalShown += matched.length;
-    html += `<div class="store-section">
-      <div class="store-label">${storeName}</div>
-      <div class="emp-list">`;
-    matched.forEach(({ emp, val, cls }) => {
-      const tag = tagInfo(cls, val);
-      html += `<div class="emp-card">
-        <div>
-          <div class="emp-name">${emp.name}${emp.isManager ? '<span class="star">★</span>' : ''}</div>
-          <div class="emp-sub">${emp.id}　${emp.title}</div>
+
+    if (!result.length) {
+      mainEl.innerHTML = `<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-title">今日無人員支援他店</div><div class="empty-sub">${dLabel}</div></div>`;
+      return;
+    }
+
+    const total = result.reduce((s, r) => s + r.going.length, 0);
+
+    let html = `<div class="result-bar">
+      <span class="result-title">${dLabel}</span>
+      <span class="result-sub">支援他店共 ${total} 人</span>
+    </div>`;
+
+    result.forEach(({ name, going }) => {
+      html += `<div class="store-block">
+        <div class="store-head store-head-going">
+          <span class="store-head-name">${name}</span>
+          <span class="count-pill pill-blue">${going.length} 人外出</span>
         </div>
-        <span class="tag ${tag.cls}">${tag.label}</span>
-      </div>`;
+        <div class="emp-list">`;
+      going.forEach(emp => {
+        const dest = (emp.dests && emp.dests[day]) ? emp.dests[day] : '';
+        html += `<div class="emp-card">
+          <div>
+            <div class="emp-name">${emp.name}${emp.isManager ? '<span class="star">★</span>' : ''}</div>
+            <div class="emp-sub">${emp.id}　${emp.title}</div>
+          </div>
+          <div style="text-align:right">
+            <span class="tag tag-going">支援他店</span>
+            ${dest ? `<div style="font-size:11px;color:var(--blue);margin-top:3px;max-width:120px;word-break:break-all">${dest}</div>` : ''}
+          </div>
+        </div>`;
+      });
+      html += `</div></div>`;
     });
-    html += `</div></div>`;
-  });
 
-  if (totalShown === 0 && currentFilter !== 'all') {
-    mainEl.innerHTML = `
-      <div class="summary-grid">
-        <div class="stat-card stat-ok"><div class="stat-num">${totals.available}</div><div class="stat-lbl">上班中</div></div>
-        <div class="stat-card stat-off"><div class="stat-num">${totals.off}</div><div class="stat-lbl">休假/例假</div></div>
-        <div class="stat-card stat-leave"><div class="stat-num">${totals.leave}</div><div class="stat-lbl">請假</div></div>
-        <div class="stat-card stat-support"><div class="stat-num">${totals.support}</div><div class="stat-lbl">支援他店</div></div>
-      </div>
-      <div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-title">查無符合條件的人員</div><div class="empty-sub">${dateStr}</div></div>`;
-    return;
+    mainEl.innerHTML = html;
   }
-
-  mainEl.innerHTML = `
-    <div class="summary-grid">
-      <div class="stat-card stat-ok"><div class="stat-num">${totals.available}</div><div class="stat-lbl">上班中</div></div>
-      <div class="stat-card stat-off"><div class="stat-num">${totals.off}</div><div class="stat-lbl">休假/例假</div></div>
-      <div class="stat-card stat-leave"><div class="stat-num">${totals.leave}</div><div class="stat-lbl">請假</div></div>
-      <div class="stat-card stat-support"><div class="stat-num">${totals.support}</div><div class="stat-lbl">支援他店</div></div>
-    </div>
-    <div class="result-header">
-      <span class="result-title">${dateStr}</span>
-      <span class="result-count">共 ${totalShown} 人</span>
-    </div>
-    ${html}`;
 }
 
 loadData();
