@@ -6,85 +6,55 @@
 <title>桃區營業二部 班表查詢</title>
 <style>
   :root {
-    --bg: #f5f4f1;
-    --surface: #fff;
-    --border: #e0ddd8;
-    --border-dark: #c8c5be;
-    --text: #1a1917;
-    --muted: #6b6963;
-    --hint: #9c9990;
-    --accent: #1a5fb4;
-    --accent-bg: #e8f0fb;
-    --green: #2a7d4f;
-    --green-bg: #e8f5ee;
-    --blue: #1a5fb4;
-    --blue-bg: #e8f0fb;
-    --purple: #6d28d9;
-    --purple-light: #7c3aed;
-    --purple-bg: #f5f0ff;
-    --purple-border: #c4b5fd;
-    --purple-pill: #ede9fe;
-    --red: #b91c1c;
-    --red-bg: #fef2f2;
-    --r: 8px;
-    --rl: 12px;
+    --bg: #f5f4f1; --surface: #fff; --border: #e0ddd8; --border-dark: #c8c5be;
+    --text: #1a1917; --muted: #6b6963; --hint: #9c9990;
+    --accent: #1a5fb4; --accent-bg: #e8f0fb;
+    --green: #2a7d4f; --green-bg: #e8f5ee;
+    --blue: #1a5fb4; --blue-bg: #e8f0fb; --blue-border: #b5d4f4;
+    --purple: #6d28d9; --purple-l: #7c3aed; --purple-bg: #f5f0ff; --purple-border: #c4b5fd; --purple-pill: #ede9fe;
+    --r: 8px; --rl: 12px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--text); font-family: -apple-system, "Noto Sans TC", sans-serif; font-size: 15px; line-height: 1.5; min-height: 100vh; }
-
+  body { background: var(--bg); color: var(--text); font-family: -apple-system,"Noto Sans TC",sans-serif; font-size: 15px; line-height: 1.5; min-height: 100vh; }
   header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 1.5rem; display: flex; align-items: center; height: 56px; position: sticky; top: 0; z-index: 10; gap: 1rem; }
   header h1 { font-size: 15px; font-weight: 600; }
-  header .dept { font-size: 13px; color: var(--muted); margin-left: 4px; }
+  .dept { font-size: 13px; color: var(--muted); margin-left: 4px; }
   .badge-updated { margin-left: auto; font-size: 12px; color: var(--hint); }
-
   .layout { display: grid; grid-template-columns: 260px 1fr; min-height: calc(100vh - 56px); }
-
   aside { background: var(--surface); border-right: 1px solid var(--border); padding: 1.25rem; position: sticky; top: 56px; height: calc(100vh - 56px); overflow-y: auto; display: flex; flex-direction: column; gap: 1rem; }
-  .section-label { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--hint); margin-bottom: .25rem; }
-
-  select, input[type=date] { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--r); background: var(--bg); color: var(--text); font-size: 14px; appearance: none; -webkit-appearance: none; cursor: pointer; }
-  select:focus, input[type=date]:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
-
+  .sec-lbl { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--hint); margin-bottom: .25rem; }
+  select, input[type=date] { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--r); background: var(--bg); color: var(--text); font-size: 14px; appearance: none; cursor: pointer; }
+  select:focus, input[type=date]:focus { outline: 2px solid var(--accent); border-color: var(--accent); }
   .mode-group { display: flex; flex-direction: column; gap: 6px; }
   .mode-btn { padding: 9px 12px; border: 1px solid var(--border); border-radius: var(--r); background: var(--bg); color: var(--muted); font-size: 13px; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 9px; transition: all .12s; line-height: 1.3; }
   .mode-btn:hover { border-color: var(--border-dark); color: var(--text); background: var(--surface); }
-  .mode-btn.active-surplus { border-color: var(--purple-light); background: var(--purple-bg); color: var(--purple); font-weight: 500; }
-  .mode-btn.active-going { border-color: var(--blue); background: var(--blue-bg); color: var(--blue); font-weight: 500; }
+  .mode-btn.act-surplus { border-color: var(--purple-l); background: var(--purple-bg); color: var(--purple); font-weight: 500; }
+  .mode-btn.act-going   { border-color: var(--blue); background: var(--blue-bg); color: var(--blue); font-weight: 500; }
   .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .d-purple { background: var(--purple-light); }
-  .d-blue { background: var(--blue); }
-
+  .d-purple { background: var(--purple-l); }
+  .d-blue   { background: var(--blue); }
   .divider { border: none; border-top: 1px solid var(--border); }
-
   .btn-query { width: 100%; padding: 10px; background: var(--accent); color: #fff; border: none; border-radius: var(--r); font-size: 14px; font-weight: 600; cursor: pointer; transition: opacity .12s; margin-top: auto; }
   .btn-query:hover { opacity: .87; }
-
   main { padding: 1.5rem; }
-
-  /* 結果 header */
   .result-bar { display: flex; align-items: baseline; gap: 10px; margin-bottom: 1.25rem; }
   .result-title { font-size: 16px; font-weight: 600; }
   .result-sub { font-size: 13px; color: var(--muted); }
-
-  /* 可支援門市 banner */
   .surplus-banner { background: var(--purple-bg); border: 1px solid var(--purple-border); border-radius: var(--rl); padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
-  .surplus-banner-lbl { font-size: 12px; color: var(--purple-light); font-weight: 500; margin-bottom: 2px; }
+  .surplus-banner-lbl { font-size: 12px; color: var(--purple-l); font-weight: 500; margin-bottom: 2px; }
   .surplus-banner-date { font-size: 13px; color: var(--purple); font-weight: 600; }
-  .surplus-banner-num { font-size: 28px; font-weight: 700; color: var(--purple-light); line-height: 1; }
-  .surplus-banner-num span { font-size: 13px; font-weight: 500; color: var(--purple-light); margin-left: 2px; }
-
-  /* 門市區塊 */
+  .surplus-banner-num { font-size: 28px; font-weight: 700; color: var(--purple-l); line-height: 1; }
+  .surplus-banner-num span { font-size: 13px; font-weight: 500; margin-left: 2px; }
   .store-block { margin-bottom: 1.25rem; }
   .store-head { display: flex; align-items: center; justify-content: space-between; padding: 6px 10px; border-radius: var(--r); margin-bottom: 6px; }
-  .store-head-surplus { background: var(--purple-bg); border: 1px solid var(--purple-border); }
-  .store-head-going { background: var(--blue-bg); border: 1px solid #b5d4f4; }
-  .store-head-name { font-size: 12px; font-weight: 600; }
-  .store-head-surplus .store-head-name { color: var(--purple); }
-  .store-head-going .store-head-name { color: var(--blue); }
-  .count-pill { font-size: 11px; font-weight: 700; padding: 1px 9px; border-radius: 12px; }
-  .pill-purple { background: var(--purple-pill); color: var(--purple-light); }
-  .pill-blue { background: var(--blue-bg); color: var(--blue); border: 1px solid #b5d4f4; }
-
+  .sh-surplus { background: var(--purple-bg); border: 1px solid var(--purple-border); }
+  .sh-going   { background: var(--blue-bg);   border: 1px solid var(--blue-border); }
+  .sh-name { font-size: 12px; font-weight: 600; }
+  .sh-surplus .sh-name { color: var(--purple); }
+  .sh-going   .sh-name { color: var(--blue); }
+  .pill { font-size: 11px; font-weight: 700; padding: 1px 9px; border-radius: 12px; }
+  .pill-purple { background: var(--purple-pill); color: var(--purple-l); }
+  .pill-blue   { background: var(--blue-bg); color: var(--blue); border: 1px solid var(--blue-border); }
   .emp-list { display: flex; flex-direction: column; gap: 4px; }
   .emp-card { display: flex; align-items: center; justify-content: space-between; padding: 9px 13px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); }
   .emp-card:hover { border-color: var(--border-dark); }
@@ -92,15 +62,13 @@
   .star { color: #c88000; font-size: 11px; margin-left: 3px; }
   .emp-sub { font-size: 12px; color: var(--muted); margin-top: 1px; }
   .tag { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
-  .tag-ok { background: var(--green-bg); color: var(--green); }
-  .tag-going { background: var(--blue-bg); color: var(--blue); }
-  .tag-no { background: #f3f4f6; color: #6b7280; }
-
+  .tag-ok     { background: var(--green-bg); color: var(--green); }
+  .tag-going  { background: var(--blue-bg);  color: var(--blue); }
+  .dest-lbl { font-size: 11px; color: var(--blue); margin-top: 3px; text-align: right; }
   .empty-state { text-align: center; padding: 4rem 2rem; color: var(--muted); }
   .empty-icon { font-size: 36px; margin-bottom: 1rem; opacity: .35; }
   .empty-title { font-size: 15px; font-weight: 500; margin-bottom: 6px; }
   .empty-sub { font-size: 13px; }
-
   @media (max-width: 640px) {
     .layout { grid-template-columns: 1fr; }
     aside { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
@@ -108,32 +76,25 @@
 </style>
 </head>
 <body>
-
 <header>
   <h1>班表查詢 <span class="dept">桃區營業二部</span></h1>
   <div class="badge-updated" id="updatedBadge">載入中...</div>
 </header>
-
 <div class="layout">
   <aside>
     <div>
-      <div class="section-label">日期</div>
+      <div class="sec-lbl">日期</div>
       <input type="date" id="qdate">
     </div>
-
     <div>
-      <div class="section-label">門市</div>
-      <select id="storeFilter">
-        <option value="">全部門市</option>
-      </select>
+      <div class="sec-lbl">門市</div>
+      <select id="storeFilter"><option value="">全部門市</option></select>
     </div>
-
     <div class="divider"></div>
-
     <div>
-      <div class="section-label" style="margin-bottom:.5rem">查詢模式</div>
+      <div class="sec-lbl" style="margin-bottom:.5rem">查詢模式</div>
       <div class="mode-group">
-        <button class="mode-btn active-surplus" id="btn-surplus" onclick="setMode('surplus')">
+        <button class="mode-btn act-surplus" id="btn-surplus" onclick="setMode('surplus')">
           <span class="dot d-purple"></span>
           <span>可支援門市<br><span style="font-size:11px;font-weight:400;opacity:.75">上班 3 人以上的門市</span></span>
         </button>
@@ -143,10 +104,8 @@
         </button>
       </div>
     </div>
-
     <button class="btn-query" onclick="query()">查詢</button>
   </aside>
-
   <main id="main">
     <div class="empty-state">
       <div class="empty-icon">📋</div>
@@ -165,148 +124,166 @@ async function loadData() {
     const res = await fetch('schedule.json?t=' + Date.now());
     DATA = await res.json();
     const { year, month, updated } = DATA.meta;
-    document.getElementById('updatedBadge').textContent = `${year}年${month}月班表　更新：${updated.slice(0,10)}`;
-    Object.keys(DATA.stores).forEach(s => {
-      const o = document.createElement('option');
+    document.getElementById('updatedBadge').textContent =
+      year + '年' + month + '月班表　更新：' + updated.slice(0, 10);
+    Object.keys(DATA.stores).forEach(function(s) {
+      var o = document.createElement('option');
       o.value = s; o.textContent = s;
       document.getElementById('storeFilter').appendChild(o);
     });
-    const t = new Date();
+    var t = new Date();
     document.getElementById('qdate').value =
-      `${t.getFullYear()}-${String(t.getMonth()+1).padStart(2,'0')}-${String(t.getDate()).padStart(2,'0')}`;
+      t.getFullYear() + '-' +
+      String(t.getMonth() + 1).padStart(2, '0') + '-' +
+      String(t.getDate()).padStart(2, '0');
     query();
   } catch(e) {
     document.getElementById('updatedBadge').textContent = '資料載入失敗';
-    document.getElementById('main').innerHTML = `<div class="empty-state"><div class="empty-icon">⚠️</div><div class="empty-title">無法載入班表資料</div><div class="empty-sub">請確認 schedule.json 放在同目錄</div></div>`;
+    document.getElementById('main').innerHTML =
+      '<div class="empty-state"><div class="empty-icon">⚠️</div>' +
+      '<div class="empty-title">無法載入班表資料</div>' +
+      '<div class="empty-sub">請確認 schedule.json 放在同目錄</div></div>';
   }
 }
 
 function setMode(m) {
   currentMode = m;
-  document.getElementById('btn-surplus').className = 'mode-btn' + (m === 'surplus' ? ' active-surplus' : '');
-  document.getElementById('btn-going').className  = 'mode-btn' + (m === 'going'   ? ' active-going'   : '');
+  document.getElementById('btn-surplus').className =
+    'mode-btn' + (m === 'surplus' ? ' act-surplus' : '');
+  document.getElementById('btn-going').className =
+    'mode-btn' + (m === 'going' ? ' act-going' : '');
 }
 
-// 空白（或全空白字元）= 上班可支援；有任何非空字元 = 無法支援
+// 空白 = 上班可支援；有任何非空字元 = 無法支援
 function isAvailable(val) {
-  return !val || val.replace(/\s/g, '') === '';
+  return val === '' || val === null || val === undefined;
 }
 
+// 支援他店 = 欄位含「支」字
 function isGoingOut(val) {
-  return val && val.replace(/\s/g, '').includes('支援');
+  return typeof val === 'string' && val.indexOf('支') !== -1;
 }
-
-// 從欄位值取出支援目的地（預留，目前由 emp.dest 欄位提供）
-function goingDest(val) { return ''; }
 
 function dateLabel(dateVal) {
-  const d = new Date(dateVal);
-  const w = ['日','一','二','三','四','五','六'];
-  return `${d.getMonth()+1}月${d.getDate()}日（週${w[d.getDay()]}）`;
+  var d = new Date(dateVal);
+  var w = ['日','一','二','三','四','五','六'];
+  return (d.getMonth()+1) + '月' + d.getDate() + '日（週' + w[d.getDay()] + '）';
+}
+
+function empCard(emp, rightHTML) {
+  return '<div class="emp-card">' +
+    '<div>' +
+      '<div class="emp-name">' + emp.name +
+        (emp.isManager ? '<span class="star">★</span>' : '') +
+      '</div>' +
+      '<div class="emp-sub">' + emp.id + '　' + emp.title + '</div>' +
+    '</div>' +
+    '<div style="text-align:right">' + rightHTML + '</div>' +
+  '</div>';
 }
 
 function query() {
   if (!DATA) return;
-  const dateVal = document.getElementById('qdate').value;
+  var dateVal = document.getElementById('qdate').value;
   if (!dateVal) return;
-  const day = parseInt(dateVal.split('-')[2]) - 1;
-  const storeF = document.getElementById('storeFilter').value;
-  const mainEl = document.getElementById('main');
-  const dLabel = dateLabel(dateVal);
-  const stores = storeF ? [storeF] : Object.keys(DATA.stores);
+  var day = parseInt(dateVal.split('-')[2], 10) - 1;
+  var storeF = document.getElementById('storeFilter').value;
+  var mainEl = document.getElementById('main');
+  var dLabel = dateLabel(dateVal);
+  var storeNames = storeF ? [storeF] : Object.keys(DATA.stores);
 
+  // ── 可支援門市模式 ──────────────────────────────
   if (currentMode === 'surplus') {
-    // 每間門市：空白欄位 >= 3 人才列出
-    const result = [];
-    stores.forEach(name => {
-      const emps = DATA.stores[name] || [];
-      const onShift = emps.filter(e => isAvailable(e.days[day] || ''));
-      if (onShift.length >= 3) result.push({ name, onShift, total: emps.length });
+    var result = [];
+    storeNames.forEach(function(name) {
+      var emps = DATA.stores[name] || [];
+      var onShift = emps.filter(function(e) {
+        return isAvailable(e.days[day]);
+      });
+      if (onShift.length >= 3) {
+        result.push({ name: name, onShift: onShift });
+      }
     });
 
     if (!result.length) {
-      mainEl.innerHTML = `<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-title">今日無門市達到 3 人上班</div><div class="empty-sub">${dLabel}</div></div>`;
+      mainEl.innerHTML =
+        '<div class="empty-state"><div class="empty-icon">🔍</div>' +
+        '<div class="empty-title">今日無門市達到 3 人上班</div>' +
+        '<div class="empty-sub">' + dLabel + '</div></div>';
       return;
     }
 
-    result.sort((a, b) => b.onShift.length - a.onShift.length);
+    result.sort(function(a, b) { return b.onShift.length - a.onShift.length; });
 
-    let html = `
-      <div class="surplus-banner">
-        <div>
-          <div class="surplus-banner-lbl">可支援門市</div>
-          <div class="surplus-banner-date">${dLabel}</div>
-        </div>
-        <div class="surplus-banner-num">${result.length}<span>間</span></div>
-      </div>`;
+    var html =
+      '<div class="surplus-banner">' +
+        '<div>' +
+          '<div class="surplus-banner-lbl">可支援門市</div>' +
+          '<div class="surplus-banner-date">' + dLabel + '</div>' +
+        '</div>' +
+        '<div class="surplus-banner-num">' + result.length + '<span>間</span></div>' +
+      '</div>';
 
-    result.forEach(({ name, onShift }) => {
-      html += `<div class="store-block">
-        <div class="store-head store-head-surplus">
-          <span class="store-head-name">${name}</span>
-          <span class="count-pill pill-purple">上班 ${onShift.length} 人</span>
-        </div>
-        <div class="emp-list">`;
-      onShift.forEach(emp => {
-        html += `<div class="emp-card">
-          <div>
-            <div class="emp-name">${emp.name}${emp.isManager ? '<span class="star">★</span>' : ''}</div>
-            <div class="emp-sub">${emp.id}　${emp.title}</div>
-          </div>
-          <span class="tag tag-ok">可支援</span>
-        </div>`;
+    result.forEach(function(r) {
+      html += '<div class="store-block">' +
+        '<div class="store-head sh-surplus">' +
+          '<span class="sh-name">' + r.name + '</span>' +
+          '<span class="pill pill-purple">上班 ' + r.onShift.length + ' 人</span>' +
+        '</div>' +
+        '<div class="emp-list">';
+      r.onShift.forEach(function(emp) {
+        html += empCard(emp, '<span class="tag tag-ok">可支援</span>');
       });
-      html += `</div></div>`;
+      html += '</div></div>';
     });
 
     mainEl.innerHTML = html;
-
-  } else {
-    // 支援他店模式：欄位包含「支援」字樣的人
-    const result = [];
-    stores.forEach(name => {
-      const emps = DATA.stores[name] || [];
-      const going = emps.filter(e => isGoingOut(e.days[day] || ''));
-      if (going.length) result.push({ name, going });
-    });
-
-    if (!result.length) {
-      mainEl.innerHTML = `<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-title">今日無人員支援他店</div><div class="empty-sub">${dLabel}</div></div>`;
-      return;
-    }
-
-    const total = result.reduce((s, r) => s + r.going.length, 0);
-
-    let html = `<div class="result-bar">
-      <span class="result-title">${dLabel}</span>
-      <span class="result-sub">支援他店共 ${total} 人</span>
-    </div>`;
-
-    result.forEach(({ name, going }) => {
-      html += `<div class="store-block">
-        <div class="store-head store-head-going">
-          <span class="store-head-name">${name}</span>
-          <span class="count-pill pill-blue">${going.length} 人外出</span>
-        </div>
-        <div class="emp-list">`;
-      going.forEach(emp => {
-        const dest = (emp.dests && emp.dests[day]) ? emp.dests[day] : '';
-        html += `<div class="emp-card">
-          <div>
-            <div class="emp-name">${emp.name}${emp.isManager ? '<span class="star">★</span>' : ''}</div>
-            <div class="emp-sub">${emp.id}　${emp.title}</div>
-          </div>
-          <div style="text-align:right">
-            <span class="tag tag-going">支援他店</span>
-            ${dest ? `<div style="font-size:11px;color:var(--blue);margin-top:3px;max-width:120px;word-break:break-all">${dest}</div>` : ''}
-          </div>
-        </div>`;
-      });
-      html += `</div></div>`;
-    });
-
-    mainEl.innerHTML = html;
+    return;
   }
+
+  // ── 支援他店模式 ────────────────────────────────
+  var result2 = [];
+  storeNames.forEach(function(name) {
+    var emps = DATA.stores[name] || [];
+    var going = emps.filter(function(e) {
+      return isGoingOut(e.days[day]);
+    });
+    if (going.length) result2.push({ name: name, going: going });
+  });
+
+  if (!result2.length) {
+    mainEl.innerHTML =
+      '<div class="empty-state"><div class="empty-icon">🔍</div>' +
+      '<div class="empty-title">今日無人員支援他店</div>' +
+      '<div class="empty-sub">' + dLabel + '</div></div>';
+    return;
+  }
+
+  var total = result2.reduce(function(s, r) { return s + r.going.length; }, 0);
+  var html2 =
+    '<div class="result-bar">' +
+      '<span class="result-title">' + dLabel + '</span>' +
+      '<span class="result-sub">共 ' + total + ' 人外出支援</span>' +
+    '</div>';
+
+  result2.forEach(function(r) {
+    html2 += '<div class="store-block">' +
+      '<div class="store-head sh-going">' +
+        '<span class="sh-name">' + r.name + '</span>' +
+        '<span class="pill pill-blue">' + r.going.length + ' 人外出</span>' +
+      '</div>' +
+      '<div class="emp-list">';
+    r.going.forEach(function(emp) {
+      var dest = (emp.dests && emp.dests[day]) ? emp.dests[day] : '';
+      var rightHTML =
+        '<span class="tag tag-going">支援他店</span>' +
+        (dest ? '<div class="dest-lbl">→ ' + dest + '</div>' : '');
+      html2 += empCard(emp, rightHTML);
+    });
+    html2 += '</div></div>';
+  });
+
+  mainEl.innerHTML = html2;
 }
 
 loadData();
