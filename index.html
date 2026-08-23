@@ -58,7 +58,7 @@
   .pill-purple { background: var(--purple-pill); color: var(--purple-l); }
   .pill-blue   { background: var(--blue-bg); color: var(--blue); border: 1px solid var(--blue-border); }
   .emp-list { display: flex; flex-direction: column; gap: 4px; }
-  .emp-card { display: flex; align-items: center; justify-content: space-between; padding: 9px 13px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); }
+  .emp-card { display: flex; align-items: center; gap: 8px; padding: 9px 13px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); }
   .emp-card:hover { border-color: var(--border-dark); }
   .emp-name { font-size: 14px; font-weight: 500; }
   .star { color: #c88000; font-size: 11px; margin-left: 3px; }
@@ -194,15 +194,17 @@ function dateLabel(dateVal) {
   return (d.getMonth()+1) + '月' + d.getDate() + '日（週' + w[d.getDay()] + '）';
 }
 
-function empCard(emp, rightHTML) {
+function empCard(emp, rightHTML, centerHTML) {
+  centerHTML = centerHTML || '';
   return '<div class="emp-card">' +
-    '<div>' +
+    '<div style="flex:1">' +
       '<div class="emp-name">' + emp.name +
         (emp.isManager ? '<span class="star">★</span>' : '') +
       '</div>' +
       '<div class="emp-sub">' + emp.id + '　' + emp.title + '</div>' +
     '</div>' +
-    '<div style="text-align:right">' + rightHTML + '</div>' +
+    (centerHTML ? '<div style="flex:1;text-align:center">' + centerHTML + '</div>' : '<div style="flex:1"></div>') +
+    '<div style="text-align:right;min-width:56px">' + rightHTML + '</div>' +
   '</div>';
 }
 
@@ -271,15 +273,15 @@ function query() {
         '<div class="emp-list">';
       r.onShift.forEach(function(emp) {
         var ci2 = DATA.checkin && DATA.checkin[emp.id];
-        var ct2 = '';
+        var center2 = '';
         if (ci2) {
           if (ci2.checkin && ci2.checkin !== '未Check in') {
-            ct2 = '<div class="cin-lbl"><span class="tag-cin">✓ ' + ci2.checkin + '</span></div>';
+            center2 = '<span class="tag-cin">✓ ' + ci2.checkin + '</span>';
           } else {
-            ct2 = '<div class="cin-lbl"><span class="tag-nocin">未打卡</span></div>';
+            center2 = '<span class="tag-nocin">未打卡</span>';
           }
         }
-        html += empCard(emp, '<span class="tag tag-ok">可支援</span>' + ct2);
+        html += empCard(emp, '<span style="font-size:14px;font-weight:500;color:var(--green)">可支援</span>', center2);
       });
       html += '</div></div>';
     });
@@ -321,15 +323,15 @@ function query() {
         '<div class="emp-list">';
       r.on.forEach(function(emp) {
         var ci1 = DATA.checkin && DATA.checkin[emp.id];
-        var ct1 = '';
+        var center1 = '';
         if (ci1) {
           if (ci1.checkin && ci1.checkin !== '未Check in') {
-            ct1 = '<div class="cin-lbl"><span class="tag-cin">✓ ' + ci1.checkin + '</span></div>';
+            center1 = '<span class="tag-cin">✓ ' + ci1.checkin + '</span>';
           } else {
-            ct1 = '<div class="cin-lbl"><span class="tag-nocin">未打卡</span></div>';
+            center1 = '<span class="tag-nocin">未打卡</span>';
           }
         }
-        html3 += empCard(emp, '<span class="tag tag-ok">上班中</span>' + ct1);
+        html3 += empCard(emp, '<span style="font-size:14px;font-weight:500;color:var(--green)">上班中</span>', center1);
       });
       html3 += '</div></div>';
     });
@@ -421,10 +423,19 @@ function query() {
       '<div class="emp-list">';
     r.going.forEach(function(emp) {
       var dest = (emp.dests && emp.dests[day]) ? emp.dests[day] : '';
+      var ci3 = DATA.checkin && DATA.checkin[emp.id];
+      var center3 = '';
+      if (ci3) {
+        if (ci3.checkin && ci3.checkin !== '未Check in') {
+          center3 = '<span class="tag-cin">✓ ' + ci3.checkin + '</span>';
+        } else {
+          center3 = '<span class="tag-nocin">未打卡</span>';
+        }
+      }
       var rightHTML =
         '<span class="tag tag-going">支援他店</span>' +
         (dest ? '<div class="dest-lbl">→ ' + dest + '</div>' : '');
-      html2 += empCard(emp, rightHTML);
+      html2 += empCard(emp, rightHTML, center3);
     });
     html2 += '</div></div>';
   });
