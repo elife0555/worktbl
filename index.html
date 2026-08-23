@@ -272,16 +272,7 @@ function query() {
         '</div>' +
         '<div class="emp-list">';
       r.onShift.forEach(function(emp) {
-        var ci2 = DATA.checkin && DATA.checkin[emp.id];
-        var center2 = '';
-        if (ci2) {
-          if (ci2.checkin && ci2.checkin !== '未Check in') {
-            center2 = '<span class="tag-cin">✓ ' + ci2.checkin + '</span>';
-          } else {
-            center2 = '<span class="tag-nocin">未打卡</span>';
-          }
-        }
-        html += empCard(emp, '<span style="font-size:14px;font-weight:500;color:var(--green)">可支援</span>', center2);
+        html += empCard(emp, '<span style="font-size:14px;font-weight:500;color:var(--green)">可支援</span>');
       });
       html += '</div></div>';
     });
