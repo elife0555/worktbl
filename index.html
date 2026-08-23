@@ -70,6 +70,12 @@
   .tag-cin { background: #e8f5ee; color: #2a7d4f; font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 20px; }
   .tag-nocin { background: #fef2f2; color: #b91c1c; font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 20px; }
   .cin-lbl { margin-top: 3px; text-align: right; }
+  .phone-btn { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: var(--accent); text-decoration: none; padding: 2px 6px; border: 0.5px solid var(--accent); border-radius: 6px; margin-left: 8px; }
+  .phone-btn:hover { background: var(--accent-bg); }
+  .d-orange { background: #f97316; }
+  .mode-btn.act-nocin { border-color: #f97316; background: #fff7ed; color: #c2410c; font-weight: 500; }
+  .tag-nocin { background: #fef2f2; color: #b91c1c; font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 20px; }
+  .cin-lbl { margin-top: 3px; text-align: right; }
   .empty-state { text-align: center; padding: 4rem 2rem; color: var(--muted); }
   .empty-icon { font-size: 36px; margin-bottom: 1rem; opacity: .35; }
   .empty-title { font-size: 15px; font-weight: 500; margin-bottom: 6px; }
@@ -110,6 +116,10 @@
         <button class="mode-btn" id="btn-onshift" onclick="setMode('onshift')">
           <span class="dot d-green"></span>
           <span>當天上班人員<br><span style="font-size:11px;font-weight:400;opacity:.75">全部門市今日上班名單</span></span>
+        </button>
+        <button class="mode-btn" id="btn-nocin" onclick="setMode('nocin')">
+          <span class="dot d-orange"></span>
+          <span>今日尚未打卡<br><span style="font-size:11px;font-weight:400;opacity:.75">上班但未 Check in 人員</span></span>
         </button>
       </div>
     </div>
@@ -164,6 +174,8 @@ function setMode(m) {
     'mode-btn' + (m === 'going' ? ' act-going' : '');
   document.getElementById('btn-onshift').className =
     'mode-btn' + (m === 'onshift' ? ' act-onshift' : '');
+  document.getElementById('btn-nocin').className =
+    'mode-btn' + (m === 'nocin' ? ' act-nocin' : '');
 }
 
 // 空白 = 上班可支援；有任何非空字元 = 無法支援
@@ -192,6 +204,20 @@ function empCard(emp, rightHTML) {
     '</div>' +
     '<div style="text-align:right">' + rightHTML + '</div>' +
   '</div>';
+}
+
+var STORE_PHONES = {"03009":"037-676686","03018":"03-5428998","03022":"03-5954272","03027":"037-265890","03032":"037-853107","03035":"03-5430824","03037":"037-368882","03057":"037-696458","03073":"03-6682007","03075":"03-5304182","03077":"037-358966","03078":"037-221170","03084":"03-5621559","03090":"037-479066","03096":"03-5951198","03101":"03-5503896","03106":"037-630161","03110":"03-5501633","03115":"037-551466","03120":"037-732900","03124":"03-5320130","03127":"03-5500277","03128":"037-756108","03129":"03-5771102","03130":"03-6580911"};
+
+function getPhone(storeName) {
+  var code = storeName.split(' ')[0];
+  return STORE_PHONES[code] || '';
+}
+
+function phoneBtn(storeName) {
+  var tel = getPhone(storeName);
+  if (!tel) return '';
+  var digits = tel.replace(/-/g, '');
+  return '<a href="tel:' + digits + '" class="phone-btn">📞 ' + tel + '</a>';
 }
 
 function query() {
@@ -239,7 +265,7 @@ function query() {
     result.forEach(function(r) {
       html += '<div class="store-block">' +
         '<div class="store-head sh-surplus">' +
-          '<span class="sh-name">' + r.name + '</span>' +
+          '<span class="sh-name">' + r.name + phoneBtn(r.name) + '</span>' +
           '<span class="pill pill-purple">上班 ' + r.onShift.length + ' 人</span>' +
         '</div>' +
         '<div class="emp-list">';
@@ -289,7 +315,7 @@ function query() {
     result3.forEach(function(r) {
       html3 += '<div class="store-block">' +
         '<div class="store-head sh-surplus">' +
-          '<span class="sh-name">' + r.name + '</span>' +
+          '<span class="sh-name">' + r.name + phoneBtn(r.name) + '</span>' +
           '<span class="pill pill-purple">上班 ' + r.on.length + ' 人</span>' +
         '</div>' +
         '<div class="emp-list">';
@@ -309,6 +335,55 @@ function query() {
     });
 
     mainEl.innerHTML = html3;
+    return;
+  }
+
+  // ── 今日尚未打卡模式 ────────────────────────────
+  if (currentMode === 'nocin') {
+    if (!DATA.checkin || Object.keys(DATA.checkin).length === 0) {
+      mainEl.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div>' +
+        '<div class="empty-title">尚無打卡資料</div>' +
+        '<div class="empty-sub">請點擴充功能「立即更新」抓取打卡資料</div></div>';
+      return;
+    }
+    var nociResult = [];
+    storeNames.forEach(function(name) {
+      var emps = DATA.stores[name] || [];
+      var notIn = emps.filter(function(e) {
+        var val = e.days[day];
+        if (val !== '') return false; // 非上班
+        var ci = DATA.checkin[e.id];
+        return !ci || !ci.checkin || ci.checkin === '未Check in' || ci.checkin === '';
+      });
+      if (notIn.length) nociResult.push({ name: name, emps: notIn });
+    });
+
+    if (!nociResult.length) {
+      mainEl.innerHTML = '<div class="empty-state"><div class="empty-icon">✅</div>' +
+        '<div class="empty-title">今日所有上班人員均已打卡</div>' +
+        '<div class="empty-sub">' + dLabel + '</div></div>';
+      return;
+    }
+
+    var totalNoci = nociResult.reduce(function(s, r) { return s + r.emps.length; }, 0);
+    var html4 = '<div class="surplus-banner" style="background:#fff7ed;border-color:#fed7aa">' +
+      '<div><div class="surplus-banner-lbl" style="color:#f97316">今日尚未打卡</div>' +
+      '<div class="surplus-banner-date" style="color:#c2410c">' + dLabel + '</div></div>' +
+      '<div class="surplus-banner-num" style="color:#f97316">' + totalNoci + '<span>人</span></div>' +
+    '</div>';
+
+    nociResult.forEach(function(r) {
+      html4 += '<div class="store-block">' +
+        '<div class="store-head" style="background:#fff7ed;border:1px solid #fed7aa">' +
+          '<span class="sh-name" style="color:#c2410c">' + r.name + phoneBtn(r.name) + '</span>' +
+          '<span class="pill" style="background:#ffedd5;color:#f97316">' + r.emps.length + ' 人未打卡</span>' +
+        '</div><div class="emp-list">';
+      r.emps.forEach(function(emp) {
+        html4 += empCard(emp, '<span class="tag tag-nocin">未打卡</span>');
+      });
+      html4 += '</div></div>';
+    });
+    mainEl.innerHTML = html4;
     return;
   }
 
