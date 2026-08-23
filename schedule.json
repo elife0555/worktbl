@@ -3,7 +3,7 @@
     "year": 2026,
     "month": 8,
     "dept": "03902B 桃區營業二部",
-    "updated": "2026-08-23T07:09:26"
+    "updated": "2026-08-23T07:18:18"
   },
   "stores": {
     "03009 Digital City-頭份店": [
@@ -997,7 +997,7 @@
         "id": "30735",
         "name": "王筱君",
         "title": "銷售副理",
-        "isManager": true,
+        "isManager": false,
         "days": [
           "",
           "",
@@ -2267,7 +2267,7 @@
         "id": "31467",
         "name": "陳鈞楷",
         "title": "銷售主任",
-        "isManager": true,
+        "isManager": false,
         "days": [
           "",
           "例",
@@ -2619,7 +2619,7 @@
         "id": "30025",
         "name": "呂春蓉",
         "title": "銷售副理",
-        "isManager": true,
+        "isManager": false,
         "days": [
           "休",
           "",
@@ -2971,7 +2971,7 @@
         "id": "30015",
         "name": "曾彩蓮",
         "title": "銷售副理",
-        "isManager": true,
+        "isManager": false,
         "days": [
           "",
           "",
@@ -4099,7 +4099,7 @@
         "id": "30026",
         "name": "曾素華",
         "title": "銷售主任",
-        "isManager": true,
+        "isManager": false,
         "days": [
           "",
           "",
@@ -4311,7 +4311,7 @@
         "id": "31078",
         "name": "吳雅婷",
         "title": "銷售副理",
-        "isManager": true,
+        "isManager": false,
         "days": [
           "",
           "例",
@@ -4381,7 +4381,7 @@
         "id": "30235",
         "name": "葉文樺",
         "title": "銷售主任",
-        "isManager": true,
+        "isManager": false,
         "days": [
           "",
           "",
@@ -5085,7 +5085,7 @@
         "id": "30042",
         "name": "王璟瑤",
         "title": "銷售主任",
-        "isManager": true,
+        "isManager": false,
         "days": [
           "國8H",
           "",
@@ -6709,7 +6709,7 @@
         "id": "30161",
         "name": "黃慧棻",
         "title": "銷售主任",
-        "isManager": true,
+        "isManager": false,
         "days": [
           "年8H",
           "",
@@ -6846,5 +6846,303 @@
         ]
       }
     ]
-  }
+  },
+  "checkin": {
+    "30012": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "30026": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "30028": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "30041": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "30042": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "30044": {
+      "checkin": "10:14",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "30056": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "30059": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "30085": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "30132": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "30161": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "30235": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "30267": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "30735": {
+      "checkin": "10:55",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "30862": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "30959": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31002": {
+      "checkin": "10:55",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31016": {
+      "checkin": "11:00",
+      "checkout": "11:00",
+      "note": ""
+    },
+    "31065": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31078": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31120": {
+      "checkin": "10:30",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31137": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31328": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31332": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31341": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31344": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31467": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": "支援"
+    },
+    "31501": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31504": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31524": {
+      "checkin": "11:00",
+      "checkout": "11:00",
+      "note": "支援"
+    },
+    "31538": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31645": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31653": {
+      "checkin": "10:30",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31674": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31685": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31707": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31747": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31756": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31784": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31800": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31857": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31866": {
+      "checkin": "10:30",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31903": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31908": {
+      "checkin": "10:30",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31957": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31986": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "32000": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "32028": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "32194": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "32215": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "32230": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "32250": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "32290": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "32291": {
+      "checkin": "10:55",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "32296": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "32305": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "41775": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "72054": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "90536": {
+      "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    }
+  },
+  "checkinUpdated": "2026-08-23T07:18:21"
 }
