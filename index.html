@@ -67,9 +67,6 @@
   .tag-ok     { background: var(--green-bg); color: var(--green); }
   .tag-going  { background: var(--blue-bg);  color: var(--blue); }
   .dest-lbl { font-size: 11px; color: var(--blue); margin-top: 3px; text-align: right; }
-  .tag-cin { background: #e8f5ee; color: #2a7d4f; font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 20px; }
-  .tag-nocin { background: #fef2f2; color: #b91c1c; font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 20px; }
-  .cin-lbl { margin-top: 3px; text-align: right; }
   .empty-state { text-align: center; padding: 4rem 2rem; color: var(--muted); }
   .empty-icon { font-size: 36px; margin-bottom: 1rem; opacity: .35; }
   .empty-title { font-size: 15px; font-weight: 500; margin-bottom: 6px; }
@@ -133,9 +130,8 @@ async function loadData() {
     const res = await fetch('schedule.json?t=' + Date.now());
     DATA = await res.json();
     const { year, month, updated } = DATA.meta;
-    var cinTime = DATA.checkinUpdated ? '　打卡：' + DATA.checkinUpdated.slice(11, 16) : '';
     document.getElementById('updatedBadge').textContent =
-      year + '年' + month + '月班表　更新：' + updated.slice(0, 10) + cinTime;
+      year + '年' + month + '月班表　更新：' + updated.slice(0, 10);
     Object.keys(DATA.stores).forEach(function(s) {
       var o = document.createElement('option');
       o.value = s; o.textContent = s;
@@ -244,16 +240,7 @@ function query() {
         '</div>' +
         '<div class="emp-list">';
       r.onShift.forEach(function(emp) {
-        var ci2 = DATA.checkin && DATA.checkin[emp.id];
-        var ct2 = '';
-        if (ci2) {
-          if (ci2.checkin && ci2.checkin !== '未Check in') {
-            ct2 = '<div class="cin-lbl"><span class="tag-cin">✓ ' + ci2.checkin + '</span></div>';
-          } else {
-            ct2 = '<div class="cin-lbl"><span class="tag-nocin">未打卡</span></div>';
-          }
-        }
-        html += empCard(emp, '<span class="tag tag-ok">可支援</span>' + ct2);
+        html += empCard(emp, '<span class="tag tag-ok">可支援</span>');
       });
       html += '</div></div>';
     });
@@ -294,16 +281,7 @@ function query() {
         '</div>' +
         '<div class="emp-list">';
       r.on.forEach(function(emp) {
-        var ci1 = DATA.checkin && DATA.checkin[emp.id];
-        var ct1 = '';
-        if (ci1) {
-          if (ci1.checkin && ci1.checkin !== '未Check in') {
-            ct1 = '<div class="cin-lbl"><span class="tag-cin">✓ ' + ci1.checkin + '</span></div>';
-          } else {
-            ct1 = '<div class="cin-lbl"><span class="tag-nocin">未打卡</span></div>';
-          }
-        }
-        html3 += empCard(emp, '<span class="tag tag-ok">上班中</span>' + ct1);
+        html3 += empCard(emp, '<span class="tag tag-ok">上班中</span>');
       });
       html3 += '</div></div>';
     });
