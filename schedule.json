@@ -3,7 +3,7 @@
     "year": 2026,
     "month": 8,
     "dept": "03902B 桃區營業二部",
-    "updated": "2026-08-23T08:12:37"
+    "updated": "2026-08-24T02:46:43"
   },
   "stores": {
     "03009 Digital City-頭份店": [
@@ -3845,7 +3845,7 @@
           "",
           "例",
           "喪8H",
-          "8H",
+          "喪8H",
           "國8H",
           "休",
           "休"
@@ -6848,63 +6848,53 @@
     ]
   },
   "checkin": {
-    "30012": {
-      "checkin": "11:00",
+    "30011": {
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
-    "30026": {
-      "checkin": "11:00",
+    "30012": {
+      "checkin": "未Check in",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "30015": {
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "30028": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "30041": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "30042": {
-      "checkin": "11:00",
-      "checkout": "未Check out",
-      "note": ""
-    },
-    "30044": {
-      "checkin": "10:14",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "30056": {
-      "checkin": "11:00",
-      "checkout": "未Check out",
-      "note": ""
-    },
-    "30059": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "30085": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "30132": {
-      "checkin": "11:00",
-      "checkout": "未Check out",
-      "note": ""
-    },
-    "30161": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "30235": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
@@ -6913,38 +6903,53 @@
       "checkout": "未Check out",
       "note": ""
     },
-    "30735": {
-      "checkin": "10:55",
+    "30291": {
+      "checkin": "10:30",
       "checkout": "未Check out",
       "note": ""
     },
-    "30862": {
+    "30319": {
+      "checkin": "未Check in",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "30334": {
       "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "30735": {
+      "checkin": "未Check in",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "30869": {
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "30959": {
-      "checkin": "11:00",
-      "checkout": "未Check out",
-      "note": ""
-    },
-    "31002": {
-      "checkin": "10:55",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "31016": {
-      "checkin": "11:00",
-      "checkout": "11:00",
+      "checkin": "未Check in",
+      "checkout": "未Check out",
       "note": ""
     },
     "31065": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "31078": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31104": {
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
@@ -6953,23 +6958,28 @@
       "checkout": "未Check out",
       "note": ""
     },
-    "31137": {
-      "checkin": "11:00",
+    "31123": {
+      "checkin": "未Check in",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31249": {
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "31328": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "31332": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
-    "31341": {
-      "checkin": "11:00",
+    "31334": {
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
@@ -6978,40 +6988,35 @@
       "checkout": "未Check out",
       "note": ""
     },
-    "31467": {
-      "checkin": "11:00",
+    "31386": {
+      "checkin": "未Check in",
       "checkout": "未Check out",
-      "note": "支援"
+      "note": ""
     },
-    "31501": {
-      "checkin": "11:00",
+    "31428": {
+      "checkin": "未Check in",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31434": {
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "31504": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
-    },
-    "31524": {
-      "checkin": "11:00",
-      "checkout": "11:00",
-      "note": "支援"
     },
     "31538": {
-      "checkin": "11:00",
-      "checkout": "未Check out",
-      "note": ""
+      "checkin": "",
+      "checkout": "",
+      "note": "內訓"
     },
     "31645": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
-      "note": ""
-    },
-    "31653": {
-      "checkin": "10:30",
-      "checkout": "未Check out",
-      "note": ""
+      "note": "支援"
     },
     "31674": {
       "checkin": "11:00",
@@ -7023,43 +7028,38 @@
       "checkout": "未Check out",
       "note": ""
     },
-    "31707": {
+    "31693": {
+      "checkin": "未Check in",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31698": {
       "checkin": "11:00",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31707": {
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "31747": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "31756": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
-    "31784": {
-      "checkin": "11:00",
+    "31773": {
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "31800": {
-      "checkin": "11:00",
-      "checkout": "未Check out",
-      "note": ""
-    },
-    "31857": {
-      "checkin": "11:00",
-      "checkout": "未Check out",
-      "note": ""
-    },
-    "31866": {
-      "checkin": "10:30",
-      "checkout": "未Check out",
-      "note": ""
-    },
-    "31903": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
@@ -7068,18 +7068,18 @@
       "checkout": "未Check out",
       "note": ""
     },
-    "31957": {
-      "checkin": "11:00",
+    "31923": {
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
-    "31986": {
-      "checkin": "11:00",
+    "31957": {
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "32000": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
@@ -7088,18 +7088,33 @@
       "checkout": "未Check out",
       "note": ""
     },
-    "32194": {
+    "32049": {
       "checkin": "11:00",
       "checkout": "未Check out",
       "note": ""
+    },
+    "32059": {
+      "checkin": "10:26",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "32113": {
+      "checkin": "未Check in",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "32198": {
+      "checkin": "",
+      "checkout": "",
+      "note": "內訓"
     },
     "32215": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
-    "32230": {
-      "checkin": "11:00",
+    "32249": {
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
@@ -7108,23 +7123,68 @@
       "checkout": "未Check out",
       "note": ""
     },
-    "32290": {
-      "checkin": "11:00",
+    "32255": {
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
+    },
+    "32267": {
+      "checkin": "",
+      "checkout": "",
+      "note": "內訓"
+    },
+    "32275": {
+      "checkin": "未Check in",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "32290": {
+      "checkin": "",
+      "checkout": "",
+      "note": "內訓"
     },
     "32291": {
-      "checkin": "10:55",
-      "checkout": "未Check out",
-      "note": ""
+      "checkin": "",
+      "checkout": "",
+      "note": "內訓"
     },
     "32296": {
-      "checkin": "11:00",
+      "checkin": "",
+      "checkout": "",
+      "note": "內訓"
+    },
+    "32302": {
+      "checkin": "",
+      "checkout": "",
+      "note": "內訓"
+    },
+    "32305": {
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
-    "32305": {
-      "checkin": "11:00",
+    "32307": {
+      "checkin": "",
+      "checkout": "",
+      "note": "內訓"
+    },
+    "32310": {
+      "checkin": "未Check in",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "32315": {
+      "checkin": "未Check in",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "32320": {
+      "checkin": "未Check in",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "32328": {
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
@@ -7133,16 +7193,11 @@
       "checkout": "未Check out",
       "note": ""
     },
-    "72054": {
-      "checkin": "11:00",
-      "checkout": "未Check out",
-      "note": ""
-    },
     "90536": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     }
   },
-  "checkinUpdated": "2026-08-23T08:12:42"
+  "checkinUpdated": "2026-08-24T02:46:47"
 }
