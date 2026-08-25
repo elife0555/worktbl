@@ -3,7 +3,7 @@
     "year": 2026,
     "month": 8,
     "dept": "03902B 桃區營業二部",
-    "updated": "2026-08-25T02:38:24"
+    "updated": "2026-08-25T02:58:39"
   },
   "stores": {
     "03009 Digital City-頭份店": [
@@ -6869,12 +6869,12 @@
       "note": ""
     },
     "30059": {
-      "checkin": "未Check in",
+      "checkin": "11:00",
       "checkout": "未Check out",
       "note": ""
     },
     "30161": {
-      "checkin": "未Check in",
+      "checkin": "11:00",
       "checkout": "未Check out",
       "note": ""
     },
@@ -6884,7 +6884,7 @@
       "note": ""
     },
     "30291": {
-      "checkin": "未Check in",
+      "checkin": "10:30",
       "checkout": "未Check out",
       "note": ""
     },
@@ -6924,7 +6924,7 @@
       "note": ""
     },
     "31120": {
-      "checkin": "未Check in",
+      "checkin": "10:30",
       "checkout": "未Check out",
       "note": ""
     },
@@ -6944,7 +6944,7 @@
       "note": ""
     },
     "31386": {
-      "checkin": "未Check in",
+      "checkin": "10:30",
       "checkout": "未Check out",
       "note": ""
     },
@@ -6984,7 +6984,7 @@
       "note": ""
     },
     "31698": {
-      "checkin": "未Check in",
+      "checkin": "11:00",
       "checkout": "未Check out",
       "note": ""
     },
@@ -7024,7 +7024,7 @@
       "note": ""
     },
     "31866": {
-      "checkin": "未Check in",
+      "checkin": "10:30",
       "checkout": "未Check out",
       "note": ""
     },
@@ -7094,7 +7094,7 @@
       "note": ""
     },
     "32267": {
-      "checkin": "未Check in",
+      "checkin": "10:28",
       "checkout": "未Check out",
       "note": ""
     },
@@ -7149,5 +7149,5 @@
       "note": ""
     }
   },
-  "checkinUpdated": "2026-08-25T02:38:27"
+  "checkinUpdated": "2026-08-25T02:58:42"
 }
