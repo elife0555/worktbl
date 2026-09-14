@@ -3,7 +3,7 @@
     "year": 2026,
     "month": 9,
     "dept": "03902B 桃區營業二部",
-    "updated": "2026-09-06T06:25:26"
+    "updated": "2026-09-14T01:47:10"
   },
   "stores": {
     "03009 Digital City-頭份店": [
@@ -233,11 +233,11 @@
           "例",
           "",
           "",
-          "",
+          "年4H",
           "休",
           "",
           "",
-          "內訓",
+          "年4H出4H",
           "例",
           "",
           "",
@@ -301,13 +301,13 @@
           "休",
           "支援",
           "",
-          "",
+          "年8H",
           "例",
           "",
           "",
           "例",
           "年8H",
-          "內訓",
+          "出4H",
           "",
           "",
           "",
@@ -464,7 +464,7 @@
           "",
           "",
           "例",
-          ""
+          "國8H"
         ],
         "dests": [
           "",
@@ -589,7 +589,7 @@
           "休",
           "例",
           "支援",
-          "",
+          "國8H",
           "國8H",
           "",
           "",
@@ -670,7 +670,7 @@
           "",
           "年8H",
           "",
-          "",
+          "支援",
           "休",
           "國8H",
           "",
@@ -702,7 +702,7 @@
           "",
           "",
           "",
-          "",
+          "03075 數位家電體驗館-牛埔館門市",
           "",
           "",
           "",
@@ -729,7 +729,7 @@
           "",
           "",
           "例",
-          "",
+          "年8H",
           "",
           "",
           "休",
@@ -954,7 +954,7 @@
           "例",
           "",
           "",
-          "年8H",
+          "國8H",
           "",
           "例",
           "",
@@ -1012,9 +1012,9 @@
           "",
           "",
           "例",
-          "",
-          "",
           "年8H",
+          "年8H",
+          "",
           "",
           "休",
           "",
@@ -1222,9 +1222,9 @@
           "",
           "休",
           "",
+          "",
+          "",
           "年8H",
-          "",
-          "",
           "例",
           "",
           "",
@@ -2698,7 +2698,7 @@
           "",
           "",
           "",
-          "支援",
+          "",
           "事8H",
           "例",
           "",
@@ -2730,7 +2730,7 @@
           "",
           "",
           "",
-          "03124 新竹巨城門市",
+          "",
           "",
           "",
           "",
@@ -2838,14 +2838,14 @@
           "",
           "例",
           "",
-          "",
+          "支援",
           "",
           "",
           "休",
           "國8H",
           "",
           "例",
-          "內訓",
+          "國8H",
           "",
           "",
           "",
@@ -2870,7 +2870,7 @@
           "",
           "",
           "",
-          "",
+          "03124 新竹巨城門市",
           "",
           "",
           "",
@@ -3264,7 +3264,7 @@
           "",
           "",
           "休",
-          "",
+          "年8H",
           "",
           "",
           "例",
@@ -3970,7 +3970,7 @@
           "",
           "",
           "",
-          "",
+          "國8H",
           "",
           "休",
           "",
@@ -4250,8 +4250,8 @@
           "休",
           "",
           "",
+          "病8H",
           "例",
-          "年8H",
           "",
           "內訓",
           "休",
@@ -4460,7 +4460,7 @@
           "",
           "",
           "",
-          "",
+          "年4H",
           "例",
           "休",
           "年8H",
@@ -4482,76 +4482,6 @@
           "例",
           "國8H",
           "國8H",
-          ""
-        ],
-        "dests": [
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          ""
-        ]
-      },
-      {
-        "id": "32113",
-        "name": "莊淳凱",
-        "title": "銷售顧問",
-        "isManager": false,
-        "days": [
-          "休",
-          "",
-          "",
-          "",
-          "年8H",
-          "例",
-          "病8H",
-          "病8H",
-          "休",
-          "",
-          "",
-          "",
-          "例",
-          "",
-          "",
-          "休",
-          "",
-          "",
-          "",
-          "例",
-          "",
-          "",
-          "",
-          "休",
-          "",
-          "國8H",
-          "例",
-          "",
-          "",
           ""
         ],
         "dests": [
@@ -4889,7 +4819,7 @@
           "休",
           "例",
           "",
-          "",
+          "年8H",
           "休",
           "出8H",
           "",
@@ -5100,8 +5030,8 @@
           "",
           "年8H",
           "",
-          "例",
           "",
+          "例",
           "",
           "",
           "休",
@@ -5170,8 +5100,8 @@
           "休",
           "年8H",
           "",
-          "",
           "例",
+          "",
           "",
           "",
           "",
@@ -5231,15 +5161,15 @@
         "days": [
           "年8H",
           "年8H",
-          "外訓",
-          "外訓",
+          "外訓出8H",
+          "外訓出8H",
           "休",
           "",
           "",
           "例",
           "",
-          "",
-          "",
+          "年4H",
+          "年8H",
           "休",
           "",
           "",
@@ -5248,7 +5178,7 @@
           "",
           "",
           "休",
-          "",
+          "年8H",
           "",
           "",
           "例",
@@ -5528,7 +5458,7 @@
           "例",
           "",
           "",
-          "年8H",
+          "",
           "例",
           "",
           "",
@@ -5800,7 +5730,7 @@
           "休",
           "",
           "",
-          "年8H",
+          "年4H",
           "例",
           "休",
           "",
@@ -5870,7 +5800,7 @@
           "",
           "",
           "例",
-          "",
+          "年4H",
           "",
           "",
           "休",
@@ -6100,7 +6030,7 @@
           "例",
           "",
           "休",
-          "",
+          "國8H",
           "休",
           "例",
           "",
@@ -6651,8 +6581,8 @@
           "休",
           "",
           "",
-          "例",
           "",
+          "例",
           "休",
           "",
           "",
@@ -6849,297 +6779,292 @@
   },
   "checkin": {
     "30011": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "30015": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
-    "30026": {
-      "checkin": "11:00",
+    "30025": {
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
-    "30041": {
-      "checkin": "11:00",
+    "30042": {
+      "checkin": "未Check in",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "30044": {
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "30056": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "30059": {
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "30085": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "30132": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "30161": {
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "30291": {
-      "checkin": "10:30",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
-    "30862": {
-      "checkin": "11:00",
-      "checkout": "未Check out",
-      "note": ""
-    },
-    "30869": {
-      "checkin": "11:00",
+    "30319": {
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "30959": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
-    "31016": {
-      "checkin": "11:00",
+    "31002": {
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "31065": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "31078": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
-    "31083": {
-      "checkin": "11:00",
+    "31104": {
+      "checkin": "未Check in",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31123": {
+      "checkin": "未Check in",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31137": {
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "31249": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
-    "31341": {
-      "checkin": "11:00",
+    "31328": {
+      "checkin": "未Check in",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31332": {
+      "checkin": "未Check in",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31334": {
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "31344": {
-      "checkin": "11:00",
-      "checkout": "11:00",
+      "checkin": "未Check in",
+      "checkout": "未Check out",
       "note": ""
     },
     "31386": {
-      "checkin": "10:30",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "31428": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "31434": {
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "31504": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "31524": {
-      "checkin": "11:00",
-      "checkout": "11:00",
+      "checkin": "未Check in",
+      "checkout": "未Check out",
       "note": ""
     },
     "31538": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "31653": {
-      "checkin": "10:30",
-      "checkout": "未Check out",
-      "note": ""
-    },
-    "31674": {
-      "checkin": "11:00",
-      "checkout": "11:00",
-      "note": ""
-    },
-    "31685": {
-      "checkin": "11:00",
-      "checkout": "未Check out",
-      "note": ""
-    },
-    "31693": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "31698": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "31707": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "31747": {
-      "checkin": "11:00",
-      "checkout": "未Check out",
-      "note": ""
-    },
-    "31756": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "31773": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "31784": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "31800": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "31857": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "31866": {
-      "checkin": "10:30",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "31923": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "31957": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "31986": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "32000": {
-      "checkin": "11:00",
-      "checkout": "未Check out",
-      "note": ""
-    },
-    "32028": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "32049": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "32057": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "32059": {
-      "checkin": "10:50",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "32170": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
-    "32194": {
-      "checkin": "11:00",
+    "32215": {
+      "checkin": "未Check in",
+      "checkout": "未Check out",
+      "note": ""
+    },
+    "32249": {
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "32250": {
-      "checkin": "11:00",
-      "checkout": "未Check out",
-      "note": ""
-    },
-    "32267": {
-      "checkin": "10:28",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "32275": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
-    "32291": {
-      "checkin": "11:00",
-      "checkout": "未Check out",
-      "note": ""
-    },
-    "32302": {
-      "checkin": "11:00",
+    "32290": {
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "32303": {
-      "checkin": "11:00",
-      "checkout": "11:00",
-      "note": ""
-    },
-    "32305": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
-      "note": ""
-    },
-    "32307": {
-      "checkin": "11:00",
-      "checkout": "未Check out",
-      "note": ""
+      "note": "支援"
     },
     "32310": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "32315": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "32320": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "32328": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
     "41775": {
-      "checkin": "11:00",
+      "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
     },
@@ -7147,12 +7072,7 @@
       "checkin": "未Check in",
       "checkout": "未Check out",
       "note": ""
-    },
-    "90536": {
-      "checkin": "11:00",
-      "checkout": "未Check out",
-      "note": ""
     }
   },
-  "checkinUpdated": "2026-09-06T06:25:30"
+  "checkinUpdated": "2026-09-14T01:47:15"
 }
