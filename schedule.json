@@ -2,25 +2,27 @@
  "meta": {
   "year": 2026,
   "month": 10,
-  "updated": "2026-10-01 10:48:17",
+  "updated": "2026-10-01 10:51:33",
   "depts": [
    {
     "code": "03902A",
     "label": "桃一部",
     "ok": true,
-    "updated": "2026-10-01 10:48:17"
+    "updated": "2026-10-01 10:51:33"
    },
    {
     "code": "03902B",
     "label": "桃二部",
-    "ok": true,
-    "updated": "2026-10-01 10:48:17"
+    "ok": false,
+    "updated": "2026-10-01 10:48:17",
+    "error": "Page.goto: Target page, context or browser has been closed"
    },
    {
     "code": "03902C",
     "label": "桃三部",
-    "ok": true,
-    "updated": "2026-10-01 10:48:17"
+    "ok": false,
+    "updated": "2026-10-01 10:48:17",
+    "error": "Page.goto: Target page, context or browser has been closed"
    }
   ]
  },
