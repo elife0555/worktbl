@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DELTAPATH 撥號測試</title>
+<style>
+body{font-family:-apple-system,"Noto Sans TC",sans-serif;background:#f5f4f1;color:#1a1917;margin:0;padding:20px;max-width:520px;margin:auto}
+h1{font-size:19px;margin:0 0 6px} p{font-size:14px;color:#6b6963;margin:0 0 14px}
+input{width:100%;box-sizing:border-box;font-size:18px;padding:10px 12px;border:1px solid #c8c5be;border-radius:8px;margin-bottom:14px}
+a.b{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid #e0ddd8;border-radius:10px;padding:14px 16px;margin-bottom:8px;text-decoration:none;color:#1a1917;font-size:16px}
+a.b span{font-family:ui-monospace,monospace;font-size:13px;color:#0f766e}
+.n{font-weight:700;color:#1a5fb4;margin-right:8px}
+</style></head><body>
+<h1>DELTAPATH 撥號測試</h1>
+<p>請在手機上逐一點下面的按鈕。記下<b>哪一個號碼會直接打開 DELTAPATH</b>（不是 iPhone 的「通話」視窗），告訴我號碼即可。</p>
+<input id="ext" value="83101" inputmode="numeric">
+<div id="list"></div>
+<script>
+var S=['deltapath://dial?number=','deltapath://','deltapathmobile://','frsip://','frsipmobile://','sip:','sips:','callto:','tel:'];
+function draw(){var x=document.getElementById('ext').value.trim(),h='';
+S.forEach(function(s,i){var u=s+x+(s==='sip:'||s==='sips:'?'':'');h+='<a class="b" href="'+u+'"><b><span class="n">'+(i+1)+'</span>'+s.replace(/[:\/].*$/,'')+'</b><span>'+u+'</span></a>';});
+document.getElementById('list').innerHTML=h;}
+document.getElementById('ext').addEventListener('input',draw);draw();
+</script></body></html>
