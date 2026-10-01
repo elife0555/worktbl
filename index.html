@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>桃區營業二部 班表查詢</title>
+<title>桃區班表查詢</title>
 <style>
   :root {
     --bg: #f5f4f1; --surface: #fff; --border: #e0ddd8; --border-dark: #c8c5be;
@@ -80,6 +80,13 @@
   .empty-icon { font-size: 36px; margin-bottom: 1rem; opacity: .35; }
   .empty-title { font-size: 15px; font-weight: 500; margin-bottom: 6px; }
   .empty-sub { font-size: 13px; }
+  .dept-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .dept-tab { padding: 8px 6px; border: 1px solid var(--border); border-radius: var(--r); background: var(--bg); color: var(--muted); font-size: 13px; cursor: pointer; transition: all .12s; }
+  .dept-tab:hover { border-color: var(--border-dark); color: var(--text); }
+  .dept-tab.active { border-color: var(--accent); background: var(--accent-bg); color: var(--accent); font-weight: 600; }
+  .dept-tab.all { grid-column: 1 / -1; }
+  .dept-chip { font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 10px; background: var(--accent-bg); color: var(--accent); margin-right: 6px; }
+  .stale-warn { background: #fef2f2; border: 1px solid #fecaca; color: #b91c1c; border-radius: var(--r); padding: 8px 12px; font-size: 12px; margin-bottom: 1rem; }
   @media (max-width: 640px) {
     .layout { grid-template-columns: 1fr; }
     aside { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
@@ -88,11 +95,15 @@
 </head>
 <body>
 <header>
-  <h1>班表查詢 <span class="dept">桃區營業二部</span></h1>
+  <h1>班表查詢 <span class="dept" id="deptLabel"></span></h1>
   <div class="badge-updated" id="updatedBadge">載入中...</div>
 </header>
 <div class="layout">
   <aside>
+    <div>
+      <div class="sec-lbl">營業部</div>
+      <div class="dept-tabs" id="deptTabs"></div>
+    </div>
     <div>
       <div class="sec-lbl">日期</div>
       <input type="date" id="qdate">
@@ -129,7 +140,7 @@
     <div class="empty-state">
       <div class="empty-icon">📋</div>
       <div class="empty-title">設定條件後點擊查詢</div>
-      <div class="empty-sub">選擇日期與查詢模式</div>
+      <div class="empty-sub">選擇營業部、日期與查詢模式</div>
     </div>
   </main>
 </div>
@@ -137,6 +148,67 @@
 <script>
 let DATA = null;
 let currentMode = 'surplus';
+let currentDept = '';      // '' = 全部營業部
+let STORES = {};           // 目前營業部的門市資料
+let STORE_DEPT = {};       // 門市 → 營業部名稱
+
+function savePref(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+function loadPref(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+
+function buildDeptTabs() {
+  var wrap = document.getElementById('deptTabs');
+  var codes = Object.keys(DATA.depts);
+  var html = '';
+  codes.forEach(function(c) {
+    html += '<button class="dept-tab' + (c === currentDept ? ' active' : '') +
+      '" onclick="setDept(\'' + c + '\')">' + DATA.depts[c].label + '</button>';
+  });
+  if (codes.length > 1) {
+    html += '<button class="dept-tab all' + (currentDept === '' ? ' active' : '') +
+      '" onclick="setDept(\'\')">全部</button>';
+  }
+  wrap.innerHTML = html;
+}
+
+function setDept(code) {
+  currentDept = code;
+  savePref('dept', code);
+  STORES = {}; STORE_DEPT = {};
+  var codes = code ? [code] : Object.keys(DATA.depts);
+  codes.forEach(function(c) {
+    var d = DATA.depts[c];
+    Object.keys(d.stores || {}).forEach(function(s) {
+      STORES[s] = d.stores[s];
+      STORE_DEPT[s] = d.label;
+    });
+  });
+  document.getElementById('deptLabel').textContent =
+    code ? (DATA.depts[code].name || DATA.depts[code].label) : '桃區全部營業部';
+  var sel = document.getElementById('storeFilter');
+  sel.innerHTML = '<option value="">全部門市</option>';
+  Object.keys(STORES).forEach(function(s) {
+    var o = document.createElement('option');
+    o.value = s; o.textContent = s;
+    sel.appendChild(o);
+  });
+  buildDeptTabs();
+  query();
+}
+
+function deptChip(storeName) {
+  return currentDept === '' && STORE_DEPT[storeName]
+    ? '<span class="dept-chip">' + STORE_DEPT[storeName] + '</span>' : '';
+}
+
+function staleWarning() {
+  var list = (DATA.meta.depts || []).filter(function(d) {
+    return !d.ok && (currentDept === '' || d.code === currentDept);
+  });
+  if (!list.length) return '';
+  return '<div class="stale-warn">⚠ ' + list.map(function(d) {
+    return d.label + ' 今日更新失敗' + (d.updated ? '，顯示 ' + d.updated.slice(5, 16) + ' 的資料' : '，無資料');
+  }).join('；') + '</div>';
+}
 
 async function loadData() {
   try {
@@ -145,18 +217,23 @@ async function loadData() {
     const { year, month, updated } = DATA.meta;
     var cinTime = DATA.checkinUpdated ? '　打卡：' + DATA.checkinUpdated.slice(11, 16) : '';
     document.getElementById('updatedBadge').textContent =
-      year + '年' + month + '月班表　更新：' + updated.slice(0, 10) + cinTime;
-    Object.keys(DATA.stores).forEach(function(s) {
-      var o = document.createElement('option');
-      o.value = s; o.textContent = s;
-      document.getElementById('storeFilter').appendChild(o);
-    });
+      year + '年' + month + '月班表　更新：' + updated.slice(0, 16) + cinTime;
+    // 舊版資料（沒有 depts）→ 視為單一營業部
+    if (!DATA.depts) DATA.depts = { '03902B': { label: '桃二部', name: '桃區營業二部', stores: DATA.stores || {} } };
     var t = new Date();
-    document.getElementById('qdate').value =
-      t.getFullYear() + '-' +
-      String(t.getMonth() + 1).padStart(2, '0') + '-' +
-      String(t.getDate()).padStart(2, '0');
-    query();
+    var qd = document.getElementById('qdate');
+    var pad = function(n) { return String(n).padStart(2, '0'); };
+    var lastDay = new Date(year, month, 0).getDate();
+    qd.min = year + '-' + pad(month) + '-01';
+    qd.max = year + '-' + pad(month) + '-' + pad(lastDay);
+    var inMonth = t.getFullYear() === year && t.getMonth() + 1 === month;
+    qd.value = inMonth ? (t.getFullYear() + '-' + pad(t.getMonth() + 1) + '-' + pad(t.getDate())) : qd.min;
+    qd.addEventListener('change', query);
+    document.getElementById('storeFilter').addEventListener('change', query);
+    var pref = loadPref('dept');
+    var start = (pref !== null && (pref === '' || DATA.depts[pref])) ? pref
+      : (DATA.depts['03902B'] ? '03902B' : Object.keys(DATA.depts)[0]);
+    setDept(start);
   } catch(e) {
     document.getElementById('updatedBadge').textContent = '資料載入失敗';
     document.getElementById('main').innerHTML =
@@ -230,13 +307,21 @@ function query() {
   var storeF = document.getElementById('storeFilter').value;
   var mainEl = document.getElementById('main');
   var dLabel = dateLabel(dateVal);
-  var storeNames = storeF ? [storeF] : Object.keys(DATA.stores);
+  var storeNames = storeF ? [storeF] : Object.keys(STORES);
+  var dParts = dateVal.split('-');
+  if (+dParts[0] !== DATA.meta.year || +dParts[1] !== DATA.meta.month) {
+    mainEl.innerHTML = '<div class="empty-state"><div class="empty-icon">📅</div>' +
+      '<div class="empty-title">目前只有 ' + DATA.meta.year + '年' + DATA.meta.month + '月 的班表</div>' +
+      '<div class="empty-sub">請選擇該月份的日期</div></div>';
+    return;
+  }
+  var warn = staleWarning();
 
   // ── 可支援門市模式 ──────────────────────────────
   if (currentMode === 'surplus') {
     var result = [];
     storeNames.forEach(function(name) {
-      var emps = DATA.stores[name] || [];
+      var emps = STORES[name] || [];
       var onShift = emps.filter(function(e) {
         return isAvailable(e.days[day]);
       });
@@ -267,7 +352,7 @@ function query() {
     result.forEach(function(r) {
       html += '<div class="store-block">' +
         '<div class="store-head sh-surplus">' +
-          '<span class="sh-name">' + r.name + phoneBtn(r.name) + '</span>' +
+          '<span class="sh-name">' + deptChip(r.name) + r.name + phoneBtn(r.name) + '</span>' +
           '<span class="pill pill-purple">上班 ' + r.onShift.length + ' 人</span>' +
         '</div>' +
         '<div class="emp-list">';
@@ -277,7 +362,7 @@ function query() {
       html += '</div></div>';
     });
 
-    mainEl.innerHTML = html;
+    mainEl.innerHTML = warn + html;
     return;
   }
 
@@ -285,7 +370,7 @@ function query() {
   if (currentMode === 'onshift') {
     var result3 = [];
     storeNames.forEach(function(name) {
-      var emps = DATA.stores[name] || [];
+      var emps = STORES[name] || [];
       var on = emps.filter(function(e) { return isAvailable(e.days[day]); });
       if (on.length) result3.push({ name: name, on: on });
     });
@@ -308,7 +393,7 @@ function query() {
     result3.forEach(function(r) {
       html3 += '<div class="store-block">' +
         '<div class="store-head sh-surplus">' +
-          '<span class="sh-name">' + r.name + phoneBtn(r.name) + '</span>' +
+          '<span class="sh-name">' + deptChip(r.name) + r.name + phoneBtn(r.name) + '</span>' +
           '<span class="pill pill-purple">上班 ' + r.on.length + ' 人</span>' +
         '</div>' +
         '<div class="emp-list">';
@@ -327,7 +412,7 @@ function query() {
       html3 += '</div></div>';
     });
 
-    mainEl.innerHTML = html3;
+    mainEl.innerHTML = warn + html3;
     return;
   }
 
@@ -341,7 +426,7 @@ function query() {
     }
     var nociResult = [];
     storeNames.forEach(function(name) {
-      var emps = DATA.stores[name] || [];
+      var emps = STORES[name] || [];
       var notIn = emps.filter(function(e) {
         var val = e.days[day];
         if (val !== '') return false; // 非上班
@@ -368,7 +453,7 @@ function query() {
     nociResult.forEach(function(r) {
       html4 += '<div class="store-block">' +
         '<div class="store-head" style="background:#fff7ed;border:1px solid #fed7aa">' +
-          '<span class="sh-name" style="color:#c2410c">' + r.name + phoneBtn(r.name) + '</span>' +
+          '<span class="sh-name" style="color:#c2410c">' + deptChip(r.name) + r.name + phoneBtn(r.name) + '</span>' +
           '<span class="pill" style="background:#ffedd5;color:#f97316">' + r.emps.length + ' 人未打卡</span>' +
         '</div><div class="emp-list">';
       r.emps.forEach(function(emp) {
@@ -376,14 +461,14 @@ function query() {
       });
       html4 += '</div></div>';
     });
-    mainEl.innerHTML = html4;
+    mainEl.innerHTML = warn + html4;
     return;
   }
 
   // ── 支援他店模式 ────────────────────────────────
   var result2 = [];
   storeNames.forEach(function(name) {
-    var emps = DATA.stores[name] || [];
+    var emps = STORES[name] || [];
     var going = emps.filter(function(e) {
       return isGoingOut(e.days[day]);
     });
@@ -408,7 +493,7 @@ function query() {
   result2.forEach(function(r) {
     html2 += '<div class="store-block">' +
       '<div class="store-head sh-going">' +
-        '<span class="sh-name">' + r.name + '</span>' +
+        '<span class="sh-name">' + deptChip(r.name) + r.name + '</span>' +
         '<span class="pill pill-blue">' + r.going.length + ' 人外出</span>' +
       '</div>' +
       '<div class="emp-list">';
@@ -431,7 +516,7 @@ function query() {
     html2 += '</div></div>';
   });
 
-  mainEl.innerHTML = html2;
+  mainEl.innerHTML = warn + html2;
 }
 
 loadData();
