@@ -159,10 +159,6 @@ function buildDeptTabs() {
     html += '<button class="dept-tab' + (c === currentDept ? ' active' : '') +
       '" onclick="setDept(\'' + c + '\')">' + DATA.depts[c].label + '</button>';
   });
-  if (codes.length > 1) {
-    html += '<button class="dept-tab all' + (currentDept === '' ? ' active' : '') +
-      '" onclick="setDept(\'\')">全部</button>';
-  }
   wrap.innerHTML = html;
 }
 
@@ -226,7 +222,7 @@ async function loadData() {
     qd.addEventListener('change', query);
     document.getElementById('storeFilter').addEventListener('change', query);
     var pref = loadPref('dept');
-    var start = (pref !== null && (pref === '' || DATA.depts[pref])) ? pref
+    var start = (pref && DATA.depts[pref]) ? pref
       : (DATA.depts['03902B'] ? '03902B' : Object.keys(DATA.depts)[0]);
     setDept(start);
   } catch(e) {
