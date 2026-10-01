@@ -67,15 +67,8 @@
   .tag-ok     { background: var(--green-bg); color: var(--green); }
   .tag-going  { background: var(--blue-bg);  color: var(--blue); }
   .dest-lbl { font-size: 11px; color: var(--blue); margin-top: 3px; text-align: right; }
-  .tag-cin { background: #e8f5ee; color: #2a7d4f; font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 20px; }
-  .tag-nocin { background: #fef2f2; color: #b91c1c; font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 20px; }
-  .cin-lbl { margin-top: 3px; text-align: right; }
   .phone-btn { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: var(--accent); text-decoration: none; padding: 2px 6px; border: 0.5px solid var(--accent); border-radius: 6px; margin-left: 8px; }
   .phone-btn:hover { background: var(--accent-bg); }
-  .d-orange { background: #f97316; }
-  .mode-btn.act-nocin { border-color: #f97316; background: #fff7ed; color: #c2410c; font-weight: 500; }
-  .tag-nocin { background: #fef2f2; color: #b91c1c; font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 20px; }
-  .cin-lbl { margin-top: 3px; text-align: right; }
   .empty-state { text-align: center; padding: 4rem 2rem; color: var(--muted); }
   .empty-icon { font-size: 36px; margin-bottom: 1rem; opacity: .35; }
   .empty-title { font-size: 15px; font-weight: 500; margin-bottom: 6px; }
@@ -127,10 +120,6 @@
         <button class="mode-btn" id="btn-onshift" onclick="setMode('onshift')">
           <span class="dot d-green"></span>
           <span>當天上班人員<br><span style="font-size:11px;font-weight:400;opacity:.75">全部門市今日上班名單</span></span>
-        </button>
-        <button class="mode-btn" id="btn-nocin" onclick="setMode('nocin')">
-          <span class="dot d-orange"></span>
-          <span>今日尚未打卡<br><span style="font-size:11px;font-weight:400;opacity:.75">上班但未 Check in 人員</span></span>
         </button>
       </div>
     </div>
@@ -215,9 +204,8 @@ async function loadData() {
     const res = await fetch('schedule.json?t=' + Date.now());
     DATA = await res.json();
     const { year, month, updated } = DATA.meta;
-    var cinTime = DATA.checkinUpdated ? '　打卡：' + DATA.checkinUpdated.slice(11, 16) : '';
     document.getElementById('updatedBadge').textContent =
-      year + '年' + month + '月班表　更新：' + updated.slice(0, 16) + cinTime;
+      year + '年' + month + '月班表　更新：' + updated.slice(0, 16);
     // 舊版資料（沒有 depts）→ 視為單一營業部
     if (!DATA.depts) DATA.depts = { '03902B': { label: '桃二部', name: '桃區營業二部', stores: DATA.stores || {} } };
     var t = new Date();
@@ -251,8 +239,6 @@ function setMode(m) {
     'mode-btn' + (m === 'going' ? ' act-going' : '');
   document.getElementById('btn-onshift').className =
     'mode-btn' + (m === 'onshift' ? ' act-onshift' : '');
-  document.getElementById('btn-nocin').className =
-    'mode-btn' + (m === 'nocin' ? ' act-nocin' : '');
 }
 
 // 空白 = 上班可支援；有任何非空字元 = 無法支援
@@ -398,70 +384,12 @@ function query() {
         '</div>' +
         '<div class="emp-list">';
       r.on.forEach(function(emp) {
-        var ci1 = DATA.checkin && DATA.checkin[emp.id];
-        var center1 = '';
-        if (ci1) {
-          if (ci1.checkin && ci1.checkin !== '未Check in') {
-            center1 = '<span class="tag-cin">✓ ' + ci1.checkin + '</span>';
-          } else {
-            center1 = '<span class="tag-nocin">未打卡</span>';
-          }
-        }
-        html3 += empCard(emp, '<span style="font-size:14px;font-weight:500;color:var(--green)">上班中</span>', center1);
+        html3 += empCard(emp, '<span style="font-size:14px;font-weight:500;color:var(--green)">上班中</span>');
       });
       html3 += '</div></div>';
     });
 
     mainEl.innerHTML = warn + html3;
-    return;
-  }
-
-  // ── 今日尚未打卡模式 ────────────────────────────
-  if (currentMode === 'nocin') {
-    if (!DATA.checkin || Object.keys(DATA.checkin).length === 0) {
-      mainEl.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div>' +
-        '<div class="empty-title">尚無打卡資料</div>' +
-        '<div class="empty-sub">請點擴充功能「立即更新」抓取打卡資料</div></div>';
-      return;
-    }
-    var nociResult = [];
-    storeNames.forEach(function(name) {
-      var emps = STORES[name] || [];
-      var notIn = emps.filter(function(e) {
-        var val = e.days[day];
-        if (val !== '') return false; // 非上班
-        var ci = DATA.checkin[e.id];
-        return !ci || !ci.checkin || ci.checkin === '未Check in' || ci.checkin === '';
-      });
-      if (notIn.length) nociResult.push({ name: name, emps: notIn });
-    });
-
-    if (!nociResult.length) {
-      mainEl.innerHTML = '<div class="empty-state"><div class="empty-icon">✅</div>' +
-        '<div class="empty-title">今日所有上班人員均已打卡</div>' +
-        '<div class="empty-sub">' + dLabel + '</div></div>';
-      return;
-    }
-
-    var totalNoci = nociResult.reduce(function(s, r) { return s + r.emps.length; }, 0);
-    var html4 = '<div class="surplus-banner" style="background:#fff7ed;border-color:#fed7aa">' +
-      '<div><div class="surplus-banner-lbl" style="color:#f97316">今日尚未打卡</div>' +
-      '<div class="surplus-banner-date" style="color:#c2410c">' + dLabel + '</div></div>' +
-      '<div class="surplus-banner-num" style="color:#f97316">' + totalNoci + '<span>人</span></div>' +
-    '</div>';
-
-    nociResult.forEach(function(r) {
-      html4 += '<div class="store-block">' +
-        '<div class="store-head" style="background:#fff7ed;border:1px solid #fed7aa">' +
-          '<span class="sh-name" style="color:#c2410c">' + deptChip(r.name) + r.name + phoneBtn(r.name) + '</span>' +
-          '<span class="pill" style="background:#ffedd5;color:#f97316">' + r.emps.length + ' 人未打卡</span>' +
-        '</div><div class="emp-list">';
-      r.emps.forEach(function(emp) {
-        html4 += empCard(emp, '<span class="tag tag-nocin">未打卡</span>');
-      });
-      html4 += '</div></div>';
-    });
-    mainEl.innerHTML = warn + html4;
     return;
   }
 
@@ -499,19 +427,10 @@ function query() {
       '<div class="emp-list">';
     r.going.forEach(function(emp) {
       var dest = (emp.dests && emp.dests[day]) ? emp.dests[day] : '';
-      var ci3 = DATA.checkin && DATA.checkin[emp.id];
-      var center3 = '';
-      if (ci3) {
-        if (ci3.checkin && ci3.checkin !== '未Check in') {
-          center3 = '<span class="tag-cin">✓ ' + ci3.checkin + '</span>';
-        } else {
-          center3 = '<span class="tag-nocin">未打卡</span>';
-        }
-      }
       var rightHTML =
         '<span class="tag tag-going">支援他店</span>' +
         (dest ? '<div class="dest-lbl">→ ' + dest + '</div>' : '');
-      html2 += empCard(emp, rightHTML, center3);
+      html2 += empCard(emp, rightHTML);
     });
     html2 += '</div></div>';
   });
