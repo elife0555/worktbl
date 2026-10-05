@@ -54,7 +54,7 @@
   .sh-name { font-size: 12px; font-weight: 600; }
   .sh-surplus .sh-name { color: var(--purple); }
   .sh-going   .sh-name { color: var(--blue); }
-  .pill { font-size: 11px; font-weight: 700; padding: 1px 9px; border-radius: 12px; }
+  .pill { font-size: 11px; font-weight: 700; padding: 1px 9px; border-radius: 12px; white-space: nowrap; flex-shrink: 0; margin-left: 6px; }
   .pill-purple { background: var(--purple-pill); color: var(--purple-l); }
   .pill-blue   { background: var(--blue-bg); color: var(--blue); border: 1px solid var(--blue-border); }
   .emp-list { display: flex; flex-direction: column; gap: 4px; }
@@ -72,6 +72,10 @@
   .dp-btn { color: #0f766e; border-color: #0f766e; font-weight: 600; }
   .dp-btn:hover { background: #e6f6f4; }
   .sh-name { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 0; }
+  .nav-btn { color: #c2410c; border-color: #c2410c; font-weight: 600; }
+  .nav-btn:hover { background: #fff7ed; }
+  .nav-btn svg { flex-shrink: 0; }
+  .dest-nav { color: #c2410c; }
   .dest-call { color: #0f766e; text-decoration: none; font-weight: 600; margin-left: 4px; }
   #toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(20px); background: #1a1917; color: #fff; padding: 9px 16px; border-radius: 8px; font-size: 13px; opacity: 0; pointer-events: none; transition: all .2s; z-index: 50; }
   #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -203,14 +207,34 @@ function staleWarning() {
 }
 
 async function loadData() {
+  var step = '讀取 schedule.json';
   try {
-    const res = await fetch('schedule.json?t=' + Date.now());
-    DATA = await res.json();
-    const { year, month, updated } = DATA.meta;
+    if (location.protocol === 'file:') {
+      throw new Error('直接開啟本機檔案時，瀏覽器不允許讀取 schedule.json。請用 GitHub 網址，或資料夾裡的 open_dashboard.bat 開啟');
+    }
+    const res = await fetch('schedule.json?t=' + Date.now(), { cache: 'no-store' });
+    if (!res.ok) throw new Error('schedule.json 讀取失敗（HTTP ' + res.status + '）');
+    step = '解析 schedule.json';
+    var text = await res.text();
+    try { DATA = JSON.parse(text); }
+    catch (je) { throw new Error('schedule.json 格式錯誤：' + je.message); }
+    step = '整理資料';
+    DATA.meta = DATA.meta || {};
+    var year = +DATA.meta.year || new Date().getFullYear();
+    var month = +DATA.meta.month || (new Date().getMonth() + 1);
+    DATA.meta.year = year; DATA.meta.month = month;
+    var updated = String(DATA.meta.updated || '');
     document.getElementById('updatedBadge').textContent =
-      year + '年' + month + '月班表　更新：' + updated.slice(0, 16);
+      year + '年' + month + '月班表' + (updated ? '　更新：' + updated.slice(0, 16) : '');
     // 舊版資料（沒有 depts）→ 視為單一營業部
-    if (!DATA.depts) DATA.depts = { '03902B': { label: '桃二部', name: '桃區營業二部', stores: DATA.stores || {} } };
+    if (!DATA.depts || !Object.keys(DATA.depts).length) {
+      DATA.depts = { '03902B': { label: '桃二部', name: '桃區營業二部', stores: DATA.stores || {} } };
+    }
+    Object.keys(DATA.depts).forEach(function(c) {
+      var d = DATA.depts[c] || {};
+      d.label = d.label || c; d.name = d.name || d.label; d.stores = d.stores || {};
+      DATA.depts[c] = d;
+    });
     var t = new Date();
     var qd = document.getElementById('qdate');
     var pad = function(n) { return String(n).padStart(2, '0'); };
@@ -221,6 +245,7 @@ async function loadData() {
     qd.value = inMonth ? (t.getFullYear() + '-' + pad(t.getMonth() + 1) + '-' + pad(t.getDate())) : qd.min;
     qd.addEventListener('change', query);
     document.getElementById('storeFilter').addEventListener('change', query);
+    step = '顯示畫面';
     var pref = loadPref('dept');
     var start = (pref && DATA.depts[pref]) ? pref
       : (DATA.depts['03902B'] ? '03902B' : Object.keys(DATA.depts)[0]);
@@ -230,7 +255,7 @@ async function loadData() {
     document.getElementById('main').innerHTML =
       '<div class="empty-state"><div class="empty-icon">⚠️</div>' +
       '<div class="empty-title">無法載入班表資料</div>' +
-      '<div class="empty-sub">請確認 schedule.json 放在同目錄</div></div>';
+      '<div class="empty-sub">步驟：' + step + '<br>' + String(e && e.message || e) + '</div></div>';
   }
 }
 
@@ -274,8 +299,8 @@ function empCard(emp, rightHTML, centerHTML) {
   '</div>';
 }
 
-// 門市電話與 DELTAPATH 分機（來源：桃區門市清單.xlsx）
-var STORE_INFO = {"03005":{"t":"03-3521228","x":"83005"},"03040":{"t":"02-26775115","x":"83040"},"03047":{"t":"03-3160500","x":"83047"},"03051":{"t":"03-3192677","x":"83051"},"03069":{"t":"03-3162188","x":"83069"},"03070":{"t":"03-2209565","x":"83070"},"03081":{"t":"03-3575238","x":"83081"},"03085":{"t":"02-26097281","x":"83085"},"03086":{"t":"03-3868777","x":"83086"},"03087":{"t":"03-3116998","x":"83087"},"03088":{"t":"02-26019368","x":"83088"},"03089":{"t":"03-3885740","x":"83089"},"03092":{"t":"03-3133990","x":"83092"},"03095":{"t":"03-3652136","x":"83095"},"03100":{"t":"02-26791910","x":"83100"},"03105":{"t":"03-3671956","x":"83105"},"03107":{"t":"03-3360313","x":"83107"},"03111":{"t":"03-2876811","x":"83111"},"03114":{"t":"03-3693185","x":"83114"},"03116":{"t":"03-3181591","x":"83116"},"03125":{"t":"02-26090052","x":"83125"},"03133":{"t":"02-66119445","x":"83133"},"03009":{"t":"037-676686","x":"83009"},"03018":{"t":"03-5428998","x":"83018"},"03022":{"t":"03-5954272","x":"83022"},"03027":{"t":"037-265890","x":"83027"},"03032":{"t":"037-853107","x":"83032"},"03035":{"t":"03-5430824","x":"83035"},"03037":{"t":"037-368882","x":"83037"},"03057":{"t":"037-696458","x":"83057"},"03073":{"t":"03-6682007","x":"83073"},"03075":{"t":"03-5304182","x":"83075"},"03077":{"t":"037-358966","x":"83077"},"03078":{"t":"037-221170","x":"83078"},"03084":{"t":"03-5621559","x":"83084"},"03090":{"t":"037-479066","x":"83090"},"03096":{"t":"03-5951198","x":"83096"},"03101":{"t":"03-5503896","x":"83101"},"03106":{"t":"037-630161","x":"83106"},"03110":{"t":"03-5501633","x":"83110"},"03115":{"t":"037-551466","x":"83115"},"03120":{"t":"037-732900","x":"83120"},"03124":{"t":"03-5320130","x":"83124"},"03127":{"t":"03-5500277","x":"83127"},"03128":{"t":"037-756108","x":"83128"},"03129":{"t":"03-5771102","x":"83129"},"03130":{"t":"03-6580911","x":"83130"},"03008":{"t":"03-4626831","x":"83008"},"03021":{"t":"03-4803120","x":"83021"},"03025":{"t":"03-5510608","x":"83025"},"03045":{"t":"03-4381955","x":"83045"},"03052":{"t":"03-5896878","x":"83052"},"03053":{"t":"03-4373058","x":"83053"},"03054":{"t":"03-5571077","x":"83054"},"03055":{"t":"03-4950228","x":"83055"},"03056":{"t":"03-4855780","x":"83056"},"03079":{"t":"03-4351067","x":"83079"},"03080":{"t":"03-4687368","x":"83080"},"03097":{"t":"03-4821316","x":"83097"},"03099":{"t":"03-5586898","x":"83099"},"03103":{"t":"03-5901360","x":"83103"},"03104":{"t":"03-4831539","x":"83104"},"03108":{"t":"03-4250113","x":"83108"},"03112":{"t":"03-4553512","x":"83112"},"03113":{"t":"03-5991052","x":"83113"},"03119":{"t":"03-4851015","x":"83119"},"03121":{"t":"03-4971608","x":"83121"},"03122":{"t":"03-4806538","x":"83122"},"03131":{"t":"03-2872160","x":"83131"},"03134":{"t":"03-6109403","x":"83134"}};
+// 門市電話、DELTAPATH 分機、Google 地圖連結（來源：桃區門市清單.xlsx）
+var STORE_INFO = {"03005":{"t":"03-3521228","x":"83005","m":"https://maps.app.goo.gl/AdVwJyfy6Jc4fZDbA"},"03040":{"t":"02-26775115","x":"83040","m":"https://maps.app.goo.gl/2TJKDx3iYnZ2cWc6A"},"03047":{"t":"03-3160500","x":"83047","m":"https://maps.app.goo.gl/ukSvRD1UHmVcUYj6A"},"03051":{"t":"03-3192677","x":"83051","m":"https://maps.app.goo.gl/5oJHyri7dRo5imDa7"},"03069":{"t":"03-3162188","x":"83069","m":"https://maps.app.goo.gl/konUiqFkY1xmDdUC7"},"03070":{"t":"03-2209565","x":"83070","m":"https://maps.app.goo.gl/Hk9UNu5xp2BLAEQq5"},"03081":{"t":"03-3575238","x":"83081","m":"https://maps.app.goo.gl/3JzoYec3btVNMpQn8"},"03085":{"t":"02-26097281","x":"83085","m":"https://maps.app.goo.gl/cqEHZPukwD7BDspn9"},"03086":{"t":"03-3868777","x":"83086","m":"https://maps.app.goo.gl/Gq2d4pPZNSSUuL9NA"},"03087":{"t":"03-3116998","x":"83087","m":"https://maps.app.goo.gl/kvH5k9iRFiK6kq1i6"},"03088":{"t":"02-26019368","x":"83088","m":"https://maps.app.goo.gl/u4Yi1ZcUVoCrNewL9"},"03089":{"t":"03-3885740","x":"83089","m":"https://maps.app.goo.gl/borQknSASn3qEujR6"},"03092":{"t":"03-3133990","x":"83092","m":"https://maps.app.goo.gl/sf9yV4dVwHGqKe5RA"},"03095":{"t":"03-3652136","x":"83095","m":"https://maps.app.goo.gl/6QLLfS1uYtezmBY26"},"03100":{"t":"02-26791910","x":"83100","m":"https://maps.app.goo.gl/8fjRLuVkAquoQqNE8"},"03105":{"t":"03-3671956","x":"83105","m":"https://maps.app.goo.gl/33CqwieH7HzqqJia9"},"03107":{"t":"03-3360313","x":"83107","m":"https://maps.app.goo.gl/aKtDtY85A9PLP3mW9"},"03111":{"t":"03-2876811","x":"83111","m":"https://maps.app.goo.gl/PKBViLcbHUKjFAWN9"},"03114":{"t":"03-3693185","x":"83114","m":"https://maps.app.goo.gl/9zDF1VBJ1dUcNBnZ8"},"03116":{"t":"03-3181591","x":"83116","m":"https://maps.app.goo.gl/o8tQZT2PMi1kbVRb7"},"03125":{"t":"02-26090052","x":"83125","m":"https://maps.app.goo.gl/xPupWzjkQWpwFBmN8"},"03133":{"t":"02-66119445","x":"83133","m":"https://maps.app.goo.gl/gWcGCfK1ymrtiAYd8"},"03009":{"t":"037-676686","x":"83009","m":"https://maps.app.goo.gl/EKHeGxhKGJnmuALW7"},"03018":{"t":"03-5428998","x":"83018","m":"https://maps.app.goo.gl/4tyuW7j6gaSuRmSu6"},"03022":{"t":"03-5954272","x":"83022","m":"https://maps.app.goo.gl/1jGLAWF6jhq9AKYd8"},"03027":{"t":"037-265890","x":"83027","m":"https://maps.app.goo.gl/5eA6whycVZqcKULq8"},"03032":{"t":"037-853107","x":"83032","m":"https://maps.app.goo.gl/qyzDXWFtJL4pWBAs5"},"03035":{"t":"03-5430824","x":"83035","m":"https://maps.app.goo.gl/AY8beimBtmuy5heEA"},"03037":{"t":"037-368882","x":"83037","m":"https://maps.app.goo.gl/3RuMXuqqZGq32FLC7"},"03057":{"t":"037-696458","x":"83057","m":"https://maps.app.goo.gl/kTZGifSJZbqJRYJH9"},"03073":{"t":"03-6682007","x":"83073","m":"https://maps.app.goo.gl/HJ2JJhxZNsYy5FYE8"},"03075":{"t":"03-5304182","x":"83075","m":"https://maps.app.goo.gl/JSHJrQb2jwjeDMKu9"},"03077":{"t":"037-358966","x":"83077","m":"https://maps.app.goo.gl/XvPAkYmrKMX1J6Wf8"},"03078":{"t":"037-221170","x":"83078","m":"https://maps.app.goo.gl/wXUhnU8HbkFV21PN9"},"03084":{"t":"03-5621559","x":"83084","m":"https://maps.app.goo.gl/YHYStxrPk7ScUNuu5"},"03090":{"t":"037-479066","x":"83090","m":"https://maps.app.goo.gl/e5ZNs7jNrd5C4jNg9"},"03096":{"t":"03-5951198","x":"83096","m":"https://maps.app.goo.gl/RL2JKJLG6kMyaCdP6"},"03101":{"t":"03-5503896","x":"83101","m":"https://maps.app.goo.gl/yqrUouN7vGPmjBYu9"},"03106":{"t":"037-630161","x":"83106","m":"https://maps.app.goo.gl/squW8WQKiuVEyHGcA"},"03110":{"t":"03-5501633","x":"83110","m":"https://maps.app.goo.gl/no96syZw4BMwU3oq6"},"03115":{"t":"037-551466","x":"83115","m":"https://maps.app.goo.gl/xRVyGCTQu84gSm5G7"},"03120":{"t":"037-732900","x":"83120","m":"https://maps.app.goo.gl/wEhvwwHzgbg7oSQZ8"},"03124":{"t":"03-5320130","x":"83124","m":"https://maps.app.goo.gl/LPvUUtexPWKC8mLX8"},"03127":{"t":"03-5500277","x":"83127","m":"https://maps.app.goo.gl/rw2ouwSbs8YYG6mS6"},"03128":{"t":"037-756108","x":"83128","m":"https://maps.app.goo.gl/WhoPTkjQbNjhgkQb8"},"03129":{"t":"03-5771102","x":"83129","m":"https://maps.app.goo.gl/VkZJi1PT6LyjaqNB9"},"03130":{"t":"03-6580911","x":"83130","m":"https://maps.app.goo.gl/LTo8p85X4Su3qaRv9"},"03008":{"t":"03-4626831","x":"83008","m":"https://maps.app.goo.gl/EKkbAL8pq1jL73q66"},"03021":{"t":"03-4803120","x":"83021","m":"https://maps.app.goo.gl/oSZ62Rx9yqTM1aQJ7"},"03025":{"t":"03-5510608","x":"83025","m":"https://maps.app.goo.gl/rZtu688od2bMNJrFA"},"03045":{"t":"03-4381955","x":"83045","m":"https://maps.app.goo.gl/JhYJnqivepGEKZnq7"},"03052":{"t":"03-5896878","x":"83052","m":"https://maps.app.goo.gl/AB2D9P9H59rJLey59"},"03053":{"t":"03-4373058","x":"83053","m":"https://maps.app.goo.gl/uowBkgP4MJ2KsSEk7"},"03054":{"t":"03-5571077","x":"83054","m":"https://maps.app.goo.gl/oZ8MjFojKqVrvxkh8"},"03055":{"t":"03-4950228","x":"83055","m":"https://maps.app.goo.gl/S2mCQ3XdkZfZuD6K6"},"03056":{"t":"03-4855780","x":"83056","m":"https://maps.app.goo.gl/SYm5aF8pexJmfFyB6"},"03079":{"t":"03-4351067","x":"83079","m":"https://maps.app.goo.gl/nNCSYZVTBH9sz3Sk6"},"03080":{"t":"03-4687368","x":"83080","m":"https://maps.app.goo.gl/GvUvX4j2w5vN7AXs8"},"03097":{"t":"03-4821316","x":"83097","m":"https://maps.app.goo.gl/jM1w9pqAYX9WfnYc7"},"03099":{"t":"03-5586898","x":"83099","m":"https://maps.app.goo.gl/Nf5jEZT1HciZQTdA7"},"03103":{"t":"03-5901360","x":"83103","m":"https://maps.app.goo.gl/pByfZvfbAK82TD1L8"},"03104":{"t":"03-4831539","x":"83104","m":"https://maps.app.goo.gl/eqjwCZNA2E9PExWz5"},"03108":{"t":"03-4250113","x":"83108","m":"https://maps.app.goo.gl/aAqSgi1XzoMSU4Mj8"},"03112":{"t":"03-4553512","x":"83112","m":"https://maps.app.goo.gl/o1hSW4G4wLJdCWt66"},"03113":{"t":"03-5991052","x":"83113","m":"https://maps.app.goo.gl/yjkFH9TfPwY8WjvZ7"},"03119":{"t":"03-4851015","x":"83119","m":"https://maps.app.goo.gl/peHLQNLPfWBQ4xp56"},"03121":{"t":"03-4971608","x":"83121","m":"https://maps.app.goo.gl/EXAPb1cmTndiMSaN8"},"03122":{"t":"03-4806538","x":"83122","m":"https://maps.app.goo.gl/iotRp7vhCySb3Ls18"},"03131":{"t":"03-2872160","x":"83131","m":"https://maps.app.goo.gl/yoWynUiRWheX6Hm77"},"03134":{"t":"03-6109403","x":"83134","m":"https://maps.app.goo.gl/K42YarcKBqqKAvLA7"}};
 
 // DELTAPATH 撥號方式：frsip://分機 會直接開啟 DELTAPATH App 撥出（iPhone 實測可用）
 var DELTAPATH_SCHEME = 'frsip://';
@@ -293,12 +318,21 @@ function phoneBtn(storeName) {
   if (inf.t) {
     h += '<a href="tel:' + inf.t.replace(/-/g, '') + '" class="phone-btn" title="市話">📞 ' + inf.t + '</a>';
   }
+  h += navBtn(inf);
   return h;
+}
+
+function navBtn(inf) {
+  if (!inf || !inf.m) return '';
+  return '<a href="' + inf.m + '" target="_blank" rel="noopener" class="phone-btn nav-btn" title="Google 地圖導航">' +
+    '<svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><path fill="currentColor" d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>導航</a>';
 }
 
 function destCall(dest) {
   var inf = STORE_INFO[storeCode(dest)];
-  return (inf && inf.x) ? ' <a href="' + DELTAPATH_SCHEME + inf.x + '" class="dest-call" onclick="copyExt(\'' + inf.x + '\')">☎' + inf.x + '</a>' : '';
+  if (!inf) return '';
+  return (inf.x ? ' <a href="' + DELTAPATH_SCHEME + inf.x + '" class="dest-call" onclick="copyExt(\'' + inf.x + '\')">☎' + inf.x + '</a>' : '') +
+    (inf.m ? ' <a href="' + inf.m + '" target="_blank" rel="noopener" class="dest-call dest-nav">📍導航</a>' : '');
 }
 
 function copyExt(ext) {
