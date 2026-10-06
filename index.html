@@ -257,6 +257,8 @@ async function loadData() {
     var pref = loadPref('dept');
     var start = (pref && DATA.depts[pref]) ? pref
       : (DATA.depts['03902B'] ? '03902B' : Object.keys(DATA.depts)[0]);
+    var savedMode = loadPref('mode');
+    if (savedMode && document.getElementById('btn-' + savedMode)) setMode(savedMode);
     setDept(start);
   } catch(e) {
     document.getElementById('updatedBadge').textContent = '資料載入失敗';
@@ -269,6 +271,7 @@ async function loadData() {
 
 function setMode(m) {
   currentMode = m;
+  savePref('mode', m);
   document.getElementById('btn-surplus').className =
     'mode-btn' + (m === 'surplus' ? ' act-surplus' : '');
   document.getElementById('btn-going').className =
@@ -513,6 +516,28 @@ function query() {
 }
 
 loadData();
+
+// ── 自動檢查新資料 ──────────────────────────────
+// 手機瀏覽器切回分頁時不會重新載入網頁，會一直顯示舊畫面；
+// 回到畫面、或每 10 分鐘，檢查是否有新班表或已經換日，有的話自動重新整理。
+var LOADED_DAY = new Date().toDateString();
+async function checkForUpdate() {
+  if (document.visibilityState !== 'visible') return;
+  if (new Date().toDateString() !== LOADED_DAY) { location.reload(); return; }
+  if (!DATA || !DATA.meta) return;
+  try {
+    var res = await fetch('schedule.json?t=' + Date.now(), { cache: 'no-store' });
+    if (!res.ok) return;
+    var latest = await res.json();
+    if (latest && latest.meta && String(latest.meta.updated || '') !== String(DATA.meta.updated || '')) {
+      location.reload();
+    }
+  } catch (e) {}
+}
+document.addEventListener('visibilitychange', checkForUpdate);
+window.addEventListener('pageshow', function(e) { if (e.persisted) checkForUpdate(); });
+window.addEventListener('focus', checkForUpdate);
+setInterval(checkForUpdate, 10 * 60 * 1000);
 </script>
 </body>
 </html>
