@@ -85,7 +85,60 @@
   .app-icon img { width: 100%; height: 100%; display: block; object-fit: cover; }
   .app-icons.sm { gap: 6px; margin-top: 5px; justify-content: flex-end; display: flex; }
   .app-icons.sm .app-icon { width: 26px; height: 26px; }
-  #toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(20px); background: #1a1917; color: #fff; padding: 9px 16px; border-radius: 8px; font-size: 13px; opacity: 0; pointer-events: none; transition: all .2s; z-index: 50; }
+  .sh-link { background: none; border: none; padding: 2px 0; font: inherit; font-size: 12px; font-weight: 600; color: inherit; cursor: pointer; text-align: left; display: flex; align-items: center; flex-wrap: wrap; gap: 4px; }
+  .sh-surplus .sh-link { color: var(--purple); }
+  .sh-going .sh-link { color: var(--blue); }
+  .sh-link .sh-text { text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 3px; }
+  .sched-chip { font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 10px; background: rgba(255,255,255,.75); border: 1px solid currentColor; opacity: .8; white-space: nowrap; }
+  .sh-link:hover .sched-chip { opacity: 1; }
+  body.modal-open { overflow: hidden; }
+  .modal { position: fixed; inset: 0; z-index: 40; display: flex; align-items: center; justify-content: center; }
+  .modal[hidden] { display: none; }
+  .modal-backdrop { position: absolute; inset: 0; background: rgba(20,20,18,.45); }
+  .modal-panel { position: relative; background: var(--surface); border-radius: 14px; width: min(1100px, calc(100vw - 32px)); max-height: calc(100vh - 48px); display: flex; flex-direction: column; box-shadow: 0 12px 40px rgba(0,0,0,.25); overflow: hidden; }
+  .modal-head { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-bottom: 1px solid var(--border); }
+  .modal-titles { flex: 1; min-width: 0; }
+  .modal-title { font-size: 15px; font-weight: 700; }
+  .modal-sub { font-size: 12px; color: var(--muted); }
+  .modal-close { width: 34px; height: 34px; border-radius: 50%; border: none; background: var(--bg); font-size: 16px; cursor: pointer; flex-shrink: 0; color: var(--muted); }
+  .modal-body { overflow: auto; padding: 0 0 10px; display: flex; flex-direction: column; min-height: 0; }
+  .sched-wrap { overflow: auto; -webkit-overflow-scrolling: touch; }
+  table.sched { border-collapse: separate; border-spacing: 0; font-size: 12px; }
+  .sched th, .sched td { border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); text-align: center; padding: 0; height: 40px; min-width: 32px; }
+  .sched thead th { position: sticky; top: 0; background: #ecebe7; z-index: 2; font-weight: 600; height: 26px; }
+  .sched thead tr:nth-child(2) th { top: 26px; font-weight: 400; color: var(--muted); }
+  .sched thead th.we { background: #dbeafe; color: #1a5fb4; }
+  .sched .sc-name { position: sticky; left: 0; z-index: 1; background: var(--surface); min-width: 92px; max-width: 92px; text-align: left; padding: 3px 8px; border-right: 2px solid var(--border-dark); }
+  .sched thead .sc-name { z-index: 3; background: #ecebe7; }
+  .sched .sc-name.mgr { background: #fef9c3; }
+  .sn-n { font-size: 13px; font-weight: 600; white-space: nowrap; }
+  .sn-t { font-size: 10px; color: var(--muted); font-weight: 400; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sched td { line-height: 1.15; }
+  .sched td.we { background: #f6f9ff; }
+  .sched td.c-off { color: #6b6963; }
+  .sched td.c-leave { color: #c2410c; font-weight: 600; font-size: 11px; }
+  .sched td.c-sup { color: #fff; background: #1a5fb4 !important; font-weight: 600; font-size: 11px; cursor: pointer; }
+  .sched td.hl { background: #fcd5d5; }
+  .sched .sel { box-shadow: inset 2px 0 0 #7c3aed, inset -2px 0 0 #7c3aed; }
+  .sched thead th.sel, .sched thead tr:nth-child(2) th.sel { background: #7c3aed; color: #fff; }
+  .sched thead th.today:not(.sel) { color: #7c3aed; font-weight: 700; }
+  .sched tfoot th, .sched tfoot td { position: sticky; bottom: 0; background: #f3f2ee; font-weight: 700; height: 30px; z-index: 1; }
+  .sched tfoot th.sc-name { z-index: 3; font-size: 12px; }
+  .sched tfoot td.low { color: #b91c1c; }
+  .sched-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; padding: 10px 14px 0; font-size: 11px; color: var(--muted); }
+  .sched-legend .lg { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -2px; margin-right: 4px; border: 1px solid var(--border-dark); }
+  .lg-work { background: #fff; } .lg-off { background: #fff; position: relative; }
+  .lg-leave { background: #c2410c; border-color: #c2410c !important; }
+  .lg-sup { background: #1a5fb4; border-color: #1a5fb4 !important; }
+  .lg-hl { background: #fcd5d5; }
+  @media (max-width: 640px) {
+    .modal { align-items: flex-end; }
+    .modal-panel { width: 100vw; max-height: 92vh; border-radius: 16px 16px 0 0; }
+    .sched .sc-name { min-width: 78px; max-width: 78px; padding: 3px 6px; }
+    .sched th, .sched td { min-width: 30px; }
+    #schedIcons .app-icon { width: 30px; height: 30px; }
+  }
+  #toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(20px); background: #1a1917; color: #fff; padding: 9px 16px; border-radius: 8px; font-size: 13px; opacity: 0; pointer-events: none; transition: all .2s; z-index: 60; }
   #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   .empty-state { text-align: center; padding: 4rem 2rem; color: var(--muted); }
   .empty-icon { font-size: 36px; margin-bottom: 1rem; opacity: .35; }
@@ -153,6 +206,30 @@
 </div>
 
 <div id="toast"></div>
+<div id="schedModal" class="modal" hidden>
+  <div class="modal-backdrop" onclick="closeSchedule()"></div>
+  <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="schedTitle">
+    <div class="modal-head">
+      <div class="modal-titles">
+        <div class="modal-title" id="schedTitle"></div>
+        <div class="modal-sub" id="schedSub"></div>
+      </div>
+      <div id="schedIcons"></div>
+      <button class="modal-close" onclick="closeSchedule()" aria-label="關閉">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="sched-wrap" id="schedWrap"></div>
+      <div class="sched-legend">
+        <span><i class="lg lg-work"></i>空白＝上班</span>
+        <span><i class="lg lg-off"></i>例／休</span>
+        <span><i class="lg lg-leave"></i>請假</span>
+        <span><i class="lg lg-sup"></i>支援（點一下看去哪間）</span>
+        <span><i class="lg lg-hl"></i>原班表粉紅標示</span>
+        <span>★ 店主管</span>
+      </div>
+    </div>
+  </div>
+</div>
 <script>
 let DATA = null;
 let currentMode = 'surplus';
@@ -290,6 +367,93 @@ function isGoingOut(val) {
   return typeof val === 'string' && val.indexOf('支') !== -1;
 }
 
+
+// ── 門市完整班表 ──────────────────────────────
+function storeTitle(name) {
+  return '<button type="button" class="sh-name sh-link" data-store="' + encodeURIComponent(name) +
+    '" onclick="openSchedule(decodeURIComponent(this.dataset.store))" title="查看完整班表">' +
+    deptChip(name) + '<span class="sh-text">' + name + '</span><span class="sched-chip">班表</span></button>';
+}
+
+function cellClass(v) {
+  if (!v) return 'c-work';
+  if (v.indexOf('支') !== -1) return 'c-sup';
+  if (/^(例|休)$/.test(v.replace(/\s/g, ''))) return 'c-off';
+  return 'c-leave';
+}
+
+function cellText(v) {
+  if (!v) return '';
+  var t = v.replace(/\s+/g, ' ').trim();
+  if (t.replace(/\s/g, '') === '支援') return '支援';
+  return t.split(' ').join('<br>');
+}
+
+function openSchedule(name) {
+  var emps = STORES[name] || [];
+  var y = DATA.meta.year, m = DATA.meta.month;
+  var nd = new Date(y, m, 0).getDate();
+  var qd = document.getElementById('qdate').value;
+  var selDay = (qd && +qd.split('-')[0] === y && +qd.split('-')[1] === m) ? +qd.split('-')[2] : 0;
+  var now = new Date();
+  var today = (now.getFullYear() === y && now.getMonth() + 1 === m) ? now.getDate() : 0;
+  var wk = ['日','一','二','三','四','五','六'];
+
+  var hl = {};
+  emps.forEach(function(e) { (e.hl || []).forEach(function(d) { hl[d] = true; }); });
+
+  var colCls = function(d) {
+    var w = new Date(y, m - 1, d).getDay();
+    return (w === 0 || w === 6 ? ' we' : '') + (d === selDay ? ' sel' : '') + (d === today ? ' today' : '');
+  };
+  var h = '<table class="sched"><thead><tr><th class="sc-name" rowspan="2">人員</th>';
+  for (var d = 1; d <= nd; d++) h += '<th class="sc-d' + colCls(d) + '" data-day="' + d + '">' + d + '</th>';
+  h += '</tr><tr>';
+  for (d = 1; d <= nd; d++) h += '<th class="sc-w' + colCls(d) + '">' + wk[new Date(y, m - 1, d).getDay()] + '</th>';
+  h += '</tr></thead><tbody>';
+  emps.forEach(function(e) {
+    h += '<tr><th class="sc-name' + (e.isManager ? ' mgr' : '') + '"><div class="sn-n">' + e.name +
+      (e.isManager ? '<span class="star">★</span>' : '') + '</div><div class="sn-t">' + (e.title || '') +
+      (e.note ? ' · ' + e.note : '') + '</div></th>';
+    for (var d = 1; d <= nd; d++) {
+      var v = e.days[d - 1] || '';
+      var dest = (e.dests && e.dests[d - 1]) || '';
+      var pink = (e.hl ? e.hl.indexOf(d) !== -1 : hl[d]) ? ' hl' : '';
+      h += '<td class="' + cellClass(v) + pink + colCls(d) + '"' +
+        (dest ? ' data-dest="' + dest.replace(/"/g, '') + '" onclick="showToast(\'' + e.name + ' ' + m + '/' + d + ' 支援 → \' + this.dataset.dest)" title="→ ' + dest + '"' : '') +
+        '>' + cellText(v) + '</td>';
+    }
+    h += '</tr>';
+  });
+  h += '</tbody><tfoot><tr><th class="sc-name">上班人數</th>';
+  for (d = 1; d <= nd; d++) {
+    var n = emps.filter(function(e) { return isAvailable(e.days[d - 1]); }).length;
+    h += '<td class="cnt' + (n < 2 ? ' low' : '') + colCls(d) + '">' + n + '</td>';
+  }
+  h += '</tr></tfoot></table>';
+
+  document.getElementById('schedTitle').textContent = name;
+  document.getElementById('schedSub').textContent = y + '年' + m + '月班表 · ' + emps.length + ' 人' +
+    (STORE_DEPT[name] ? ' · ' + STORE_DEPT[name] : '');
+  document.getElementById('schedIcons').innerHTML = phoneBtn(name);
+  var wrap = document.getElementById('schedWrap');
+  wrap.innerHTML = h;
+  var modal = document.getElementById('schedModal');
+  modal.hidden = false;
+  document.body.classList.add('modal-open');
+  // 捲到選擇的日期
+  var target = wrap.querySelector('th.sc-d[data-day="' + (selDay || today || 1) + '"]');
+  var nameCol = wrap.querySelector('th.sc-name');
+  if (target && nameCol) wrap.scrollLeft = Math.max(0, target.offsetLeft - nameCol.offsetWidth - 2 * target.offsetWidth);
+  try { document.querySelector('.modal-close').focus({ preventScroll: true }); } catch (e) {}
+}
+
+function closeSchedule() {
+  document.getElementById('schedModal').hidden = true;
+  document.body.classList.remove('modal-open');
+}
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeSchedule(); });
+
 function dateLabel(dateVal) {
   var d = new Date(dateVal);
   var w = ['日','一','二','三','四','五','六'];
@@ -415,7 +579,7 @@ function query() {
     result.forEach(function(r) {
       html += '<div class="store-block">' +
         '<div class="store-head sh-surplus">' +
-          '<span class="sh-name">' + deptChip(r.name) + r.name + '</span>' + phoneBtn(r.name) +
+          storeTitle(r.name) + phoneBtn(r.name) +
           '<span class="pill pill-purple">上班 ' + r.onShift.length + ' 人</span>' +
         '</div>' +
         '<div class="emp-list">';
@@ -456,7 +620,7 @@ function query() {
     result3.forEach(function(r) {
       html3 += '<div class="store-block">' +
         '<div class="store-head sh-surplus">' +
-          '<span class="sh-name">' + deptChip(r.name) + r.name + '</span>' + phoneBtn(r.name) +
+          storeTitle(r.name) + phoneBtn(r.name) +
           '<span class="pill pill-purple">上班 ' + r.on.length + ' 人</span>' +
         '</div>' +
         '<div class="emp-list">';
@@ -498,7 +662,7 @@ function query() {
   result2.forEach(function(r) {
     html2 += '<div class="store-block">' +
       '<div class="store-head sh-going">' +
-        '<span class="sh-name">' + deptChip(r.name) + r.name + '</span>' + phoneBtn(r.name) +
+        storeTitle(r.name) + phoneBtn(r.name) +
         '<span class="pill pill-blue">' + r.going.length + ' 人外出</span>' +
       '</div>' +
       '<div class="emp-list">';
